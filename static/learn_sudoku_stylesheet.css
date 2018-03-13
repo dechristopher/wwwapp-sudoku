@@ -1,0 +1,141 @@
+h1, h2, h3, p, body, div 
+{
+   font-family: Tahoma, Helvetica, sans-serif;
+   margin: 0;
+   padding: 0;  
+}
+
+h1  
+{  
+   font-size: 1.8em; 
+   margin: 0.25em 0 0.25em 0;
+}
+
+h2  
+{   
+   font-size: 1.2em;    
+   margin: 0.5em 0 0.25em 0;
+}
+
+p, body 
+{
+   font-size: 0.9em;
+}
+ 
+p 
+{
+   margin-bottom: 1em;
+}
+  
+body 
+{
+   background-color: white; 
+}
+
+article 
+{
+   background-color: #C7C6C6;
+   margin: 0em 0em 0em 0em;
+   padding: 1em 20px;
+}
+
+figure 
+{    
+   float: left;
+   padding: 0 1em ;
+   position: relative;
+}
+
+figcaption 
+{
+   width: 190px;
+   background-color: black;
+   text-align: center;
+   color:white;
+   opacity:0.8;
+   height: 20px;
+   padding: 5px;
+   position: absolute;
+   top: 105px;
+}
+
+.header .figure_logo 
+{
+    padding: 60px; /* some padding */
+    text-align: center; /* center the text */
+    background: #34C9C2; /* Aqua background */
+}
+
+.navbar 
+{
+    overflow: hidden; /* Hide overflow */
+    background-color: #333; /* Dark background color */
+}
+
+/* Style the navigation bar links */
+.navbar a 
+{
+    float: left; /* Make sure that the links stay side-by-side */
+    display: block; /* Change the display to block, for responsive reasons (see below) */
+    color: white; /* White text color */
+    text-align: center; /* Center the text */
+    padding: 25px 20px; /* Add some padding */
+    text-decoration: none; /* Remove underline */
+}
+
+/* Right-aligned link */
+.navbar a.right 
+{
+    float: right; /* Float a link to the right */
+}
+
+/* Change color on hover/mouse-over */
+.navbar a:hover 
+{
+    background-color: #ddd; /* Grey background color */
+    color: black; /* Black text color */
+}
+
+.overlayed 
+{
+   position: absolute;
+   top: 0px;
+   left: 0px;
+}
+
+.entry 
+{
+   overflow: auto;
+   border-top: 1pt solid #ff8800;
+}
+
+.right 
+{
+   float: right;
+}
+
+.linkbutton 
+{
+   margin-top: 7em;
+   background-color: #ff8800;
+   display: block;
+   padding: 20px 20px;
+   color: white;
+   text-decoration: none; 
+   font-size: 0.85em;   
+}
+
+.footer 
+{
+    padding: 50px; /* Some padding */
+    text-align: center; /* Center text*/
+	color: white; /* White text color */
+	text-decoration: none; /* Remove underline */
+    background: #34C9C2; /* Aqua background */
+}
+
+.footer a:hover 
+{
+    background-color: #ddd; /* Grey background color */
+    color: black; /* Black text color */
+}
