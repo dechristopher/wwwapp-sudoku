@@ -8,6 +8,8 @@
 	<meta http-equiv="cleartype" content="on">
 	<link rel="stylesheet" href="reset.css">
 	<link rel="stylesheet" href="index_stylesheet.css">
+	<link rel="stylesheet" href="register_stylesheet.css">
+	<link rel="stylesheet" href="login_stylesheet.css">
 	
 	<style> 
 		body 
@@ -37,8 +39,67 @@
 				<a href="#">Hard</a>
 				</div>
 			</div>
-		<a href="#" class="right">Register</a>
-		<a href="#" class="right">Sign In</a>
+		<a href="#" class="right">
+			<button class="btn2" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</button>
+		<a href="#" class="right">
+			<button class="btn1" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+	</div>
+	
+	<div id="id01" class="modal">
+		<form class="modal-content animate" action="/action_page.php">
+			<div class="imgcontainer">
+				<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+				<img src="images/avatar.png" alt="Avatar" class="avatar">
+			</div>
+
+			<div class="container">
+				<label for="username"><b>Username:</b></label>
+					<input class="input1" type="text" placeholder="Enter Username" name="username" required>
+				<label for="psw"><b>Password:</b></label>
+					<input class="input1" type="password" placeholder="Enter Password" name="psw" required>
+				<button class="btn1" type="submit">Login</button>
+				<label>
+					<input type="checkbox" checked="checked" name="remember"> Remember me
+				</label>
+			</div>
+
+			<div class="container" style="background-color:#f1f1f1">
+				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+				<span class="psw">Forgot <a href="#">password?</a></span>
+			</div>
+		</form>
+	</div>
+	
+	<div id="id02" class="modal2">
+		<form class="modal2-content" action="/action_page.php">
+			
+			<div class="imgcontainer">
+				<span onclick="document.getElementById('id02').style.display='none'" class="close2" title="Close Modal">&times;</span>
+			</div>
+			
+			<div class="container2">
+				
+				<h2>Sign Up</h2>
+				<p>Please fill in this form to create an account:</p>
+					<hr>
+				<label for="email"><b>Email:</b></label>
+					<input class="input2" type="text" placeholder="Enter Email" name="email" required>
+				<label for="psw"><b>Password:</b></label>
+					<input class="input2" type="password" placeholder="Enter Password" name="psw" required>
+				<label for="psw-confirm"><b>Confirm Password:</b></label>
+					<input class="input2" type="password" placeholder="Confirm Password" name="psw-confirm" required>
+				<label>
+					<input class="input2" type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+				</label>
+
+				<p>By creating an account you agree to our <a href="#" style="color:blue">Terms & Privacy</a>.</p>
+
+				<div class="clearfix">
+					<button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn2">Cancel</button>
+					<button type="submit" class="registerbtn">Register</button>
+				</div>
+			</div>
+		</form>
 	</div>
 	
 	<div class="row">
