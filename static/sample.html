@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Sudoku Sample Page</title>
+    <link rel="stylesheet" href="sudoku.css">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="sudoku.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        // This is an example for how to build the sudoku
+        // and insert it into the page
+        $( document ).ready( function() {
+
+            var myseed = new Date().getTime();
+
+            // the constructor accepts the configuration of the puzzle
+            var game = new Sudoku( {
+                difficulty: "easy",
+                seed: myseed // specify a seed here, or a random seed is generated
+            } );
+
+            // generates the puzzle
+            game.create();
+
+            // adds the sudoku puzzle to the game-container div
+            $( "#game-container" ).append( game.getTable() );
+            
+            // hooks the public methods of the sudoku to buttons
+            $( "#solve" ).click( function() {
+                game.solve();
+            } );
+            $( "#validate" ).click( function() {
+                game.validate();
+            });
+            $( "pause" ).click( function() {
+                game.pause();
+            });
+            $( "#reset" ).click( function() {
+                game.reset();
+            });
+        } );
+    </script>
+
+    <h1>Sample Sudoku Page</h1>
+
+    <div id="game-container"></div>
+    <div id="controls" class="sudoku-controls">
+        <button id="solve">Solve</button>
+        <button id="validate">Validate Board</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+    </div>
+
+</body>
+</html>
