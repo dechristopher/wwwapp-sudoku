@@ -29,6 +29,8 @@ Random.prototype.nextFloat = function () {
 
 /**
  * Returns a pseudo-random integer in the range [min, max)
+ * @param {Number} min
+ * @param {Number} max
  * @returns a pseudo-random integer
  */
 Random.prototype.nextInt = function ( min, max ) {
@@ -116,13 +118,14 @@ function Sudoku( config ) {
             },
 
             /**
-             * Check the validation of the sudoku board
-             * @returns {Boolean} whether the sudoku board is valid
+             * Check the completeness of the sudoku board
+             * Will add a valid style if there are no errors in the
+             * current entries.
+             * @returns {Boolean} true if the puzzle is complete
              */
             validate: function() {
-                var isValid = _game.validatePuzzle();
-                $( ".sudoku-container" ).toggleClass( "valid-matrix", isValid );
-                return isValid;
+                var isComplete = _game.validatePuzzle();
+                return isComplete;
             },
 
             /**
@@ -152,6 +155,7 @@ function Sudoku( config ) {
 
     /**
      * Sudoku game engine
+     * @constructor
      * @param {Object} config configuration data
      */
     function Game( config ) {
@@ -213,27 +217,48 @@ function Sudoku( config ) {
          * @param {jQuery.event} e Input event
          */
         onInput: function( e ) {
-            var val, row, col, sectRow, sectCol, sectIndex, oldVal;
+            var val, row, col, sectRow, sectCol, sectIndex, oldVal, isValid;
 
-            val = $( e.currentTarget ).val();
+            $( ".sudoku-container" ).removeClass( "valid-matrix" );
+
+            val = $( e.currentTarget ).val().toUpperCase();
             row = $( e.currentTarget ).data( "row" );
             col = $( e.currentTarget ).data( "col" );
+            oldVal = this.matrix.row[row][col];
+            $( e.currentTarget ).val( val ); // changes to uppercase if necessary
 
             // Calculate which section we are in
             sectRow = Math.floor( row / this.config.sectSize );
             sectCol = Math.floor( col / this.config.sectSize );
             sectIndex = ( row % this.config.sectSize ) * this.config.sectSize + ( col % this.config.sectSize );
 
-            // Discard non-numeric inputs
-            if ( !$.isNumeric( val ) ) {
+            // Discard invalid inputs
+            if ( !this.isValidInput( val ) ) {
                 val = "";
                 $( e.currentTarget ).val( "" );
             }
+
+            isValid = this.validateEntry( val, row, col, oldVal );
+            $( e.currentTarget ).toggleClass( "sudoku-input-error", !isValid );
 
             // Store the value in the solution matrix
             this.matrix.row[row][col] = val;
             this.matrix.col[col][row] = val;
             this.matrix.sect[sectRow][sectCol][sectIndex] = val;
+        },
+
+        /**
+         * Check if val is a valid input for this puzzle
+         * @param {String} val
+         * @returns {Boolean} true if val is valid
+         */
+        isValidInput: function( val ) {
+            if ( this.config.gridSize === 9 ) {
+                return $.isNumeric( val ) && parseInt( val, 10 ) > 0;
+            } else if ( this.config.gridSize === 16 ) {
+                var hexReg = /[0-9A-F]/
+                return hexReg.test( val );
+            }
         },
 
         /**
@@ -246,7 +271,7 @@ function Sudoku( config ) {
                 for ( col = 0; col < this.config.gridSize; ++col ) {
                     // If the input is read-only, repopulate the matrices
                     // otherwise, clear the input
-                    if ( this.$inputCells[row][col].readonly ) {
+                    if ( this.$inputCells[row][col].prop( "readonly" ) ) {
                         val = this.$inputCells[row][col].val();
                         sectRow = Math.floor( row / this.config.sectSize );
                         sectCol = Math.floor( col / this.config.sectSize );
@@ -270,8 +295,8 @@ function Sudoku( config ) {
             this.validation = { row: [], col: [], sect: [] };
 
             for ( i = 0; i < this.config.gridSize; ++i ) {
-                this.matrix.row[i] = [ '', '', '', '', '', '', '', '', '' ];
-                this.matrix.col[i] = [ '', '', '', '', '', '', '', '', '' ];
+                this.matrix.row[i] = Array.from({length:this.config.gridSize}, x => '');
+                this.matrix.col[i] = Array.from({length:this.config.gridSize}, x => '');
                 this.validation.row[i] = [];
                 this.validation.col[i] = [];
             }
@@ -280,17 +305,86 @@ function Sudoku( config ) {
                 this.matrix.sect[i] = [];
                 this.validation.sect[i] = [];
                 for ( j = 0; j < this.config.sectSize; ++j ) {
-                    this.matrix.sect[i][j] = [ '', '', '', '', '', '', '', '', '' ];
+                    this.matrix.sect[i][j] = Array.from({length:this.config.gridSize}, x => '');
                     this.validation.sect[i][j] = [];
                 }
             }
         },
 
         /**
-         * Validate the numbers in the puzzle
+         * Check the completeness of the puzzle. Will add a valid
+         * style to the puzzle if there are no errors.
+         * @returns {Boolean} true if the puzzle is complete
          */
         validatePuzzle: function() {
+            var val, isValid, error = false, complete = true;
 
+            for ( var row = 0; row < this.config.gridSize; ++row ) {
+                for ( var col = 0; col < this.config.gridSize; ++col ) {
+                    // Don't validate the read only puzzle entries
+                    if ( !this.$inputCells[row][col].prop( "readonly" ) ) {
+                        val = this.$inputCells[row][col].val();
+                        if ( val === "" ) {
+                            complete = false;
+                        }
+                        isValid = this.validateEntry( val, row, col, val );
+                        this.$inputCells[row][col].toggleClass( "sudoku-input-error", !isValid );
+                        if ( !isValid ) {
+                            error = true;
+                            complete = false;
+                        }
+                    }
+                }
+            }
+            $( ".sudoku-container" ).toggleClass( "valid-matrix", !error );
+            return complete;
+        },
+
+        /**
+         * Validate a new number being added to the sudoku
+         * @param {String} val the new value being added
+         * @param {Number} row the row index
+         * @param {Number} col the column index
+         * @param {String} oldVal the old value to remove
+         * @returns {Boolean} true if the new value does not conflict with other entries
+         */
+        validateEntry: function( val, row, col, oldVal ) {
+            var isValid;
+            var sectRow = Math.floor( row / this.config.sectSize );
+            var sectCol = Math.floor( col / this.config.sectSize );
+
+            // Remove the old value from the validation matrix
+            if ( oldVal !== "" ) {
+                if ( $.inArray( oldVal, this.validation.row[row] ) > -1 ) {
+                    this.validation.row[row].splice( 
+                        $.inArray( oldVal, this.validation.row[row] ), 1
+                    );
+                }
+                if ( $.inArray( oldVal, this.validation.col[col] ) > -1 ) {
+                    this.validation.col[col].splice( 
+                        $.inArray( oldVal, this.validation.col[col] ), 1 
+                    );
+                }
+                if ( $.inArray( oldVal, this.validation.sect[sectRow][sectCol] ) > -1 ) {
+                    this.validation.sect[sectRow][sectCol].splice( 
+                        $.inArray( oldVal, this.validation.sect[sectRow][sectCol] ), 1
+                    );
+                }
+            }
+
+            // If the val is already in the array, this input is invalid
+            isValid = $.inArray( val, this.validation.row[row] ) === -1 &&
+                $.inArray( val, this.validation.col[col] ) === -1 &&
+                $.inArray( val, this.validation.sect[sectRow][sectCol] ) === -1;
+            
+            // Add the new value to the validation matrix
+            if ( val !== "" ) {
+                this.validation.row[row].push( val );
+                this.validation.col[col].push( val );
+                this.validation.sect[sectRow][sectCol].push( val );
+            }
+
+            return isValid;
         },
 
         /**
@@ -298,7 +392,7 @@ function Sudoku( config ) {
          * @param {Number} seed an integer value
          */
         createPuzzle: function( seed ) {
-            var row, col;
+            var row, col, sectRow, sectCol;
 
             // Sets the config seed value if a proper seed value is supplied
             if ( $.isNumeric( seed ) && this.config.seed != 0 ) {
@@ -318,10 +412,16 @@ function Sudoku( config ) {
             this.createUniquePuzzle();
 
             // Make the remaining numbers readonly
+            // and add them to the validation matrix
             for ( row = 0; row < this.config.gridSize; ++row ) {
                 for ( col = 0; col < this.config.gridSize; ++col ) {
                     if ( this.$inputCells[row][col].val() !== "" ) {
+                        sectRow = Math.floor( row / this.config.sectSize );
+                        sectCol = Math.floor( col / this.config.sectSize );
                         this.$inputCells[row][col].prop( "readonly", true );
+                        this.validation.row[row].push( this.$inputCells[row][col].val() );
+                        this.validation.col[col].push( this.$inputCells[row][col].val() );
+                        this.validation.sect[sectRow][sectCol].push( this.$inputCells[row][col].val() );
                     }
                 }
             }
@@ -330,6 +430,7 @@ function Sudoku( config ) {
         /**
          * Solve the sudoku puzzle. If the grid is empty, it will
          * generate a random completed sudoku
+         * @returns {Boolean} true if the puzzle was solved
          */
         solvePuzzle: function( ) {
             var emptySquares = this.findAllEmptySquares();
@@ -338,6 +439,8 @@ function Sudoku( config ) {
 
         /**
          * Recursive method for solving the sudoku puzzle
+         * @param {Array} emptySquares a list of the currently squares
+         * @returns {Boolean} true if the puzzle was solved on this path
          */
         _solvePuzzle: function( emptySquares ) {
             var next, i, row, col, sectRow, sectCol, sectIndex, val;
@@ -463,8 +566,7 @@ function Sudoku( config ) {
 
         /**
          * Check if the current board has a unique solution
-         * @returns {Boolean} true if there is a unique solution,
-         *                    false otherwise
+         * @returns {Boolean} true if there is a unique solution
          */
         hasUniqueSolution: function() {
             // TODO Implement this function
@@ -473,6 +575,8 @@ function Sudoku( config ) {
 
         /**
          * Get a list of all empty squares on the board
+         * @return {Array} a list of ["row","col"] indices of
+         *          empty squares in the sudoku
          */
         findAllEmptySquares: function( ) {
             var row, col;
@@ -492,6 +596,9 @@ function Sudoku( config ) {
         /**
          * Find an empty square in the puzzle with the smallest number of
          * legal values
+         * @param {Array} emptySquares a list of all empty squares
+         * @returns {Object} ["row","col"] indices of the best square to try inputting values
+         * 
          */
         findBestEmptySquare: function( emptySquares ) {
             var i, legalValues, index;
@@ -541,21 +648,27 @@ function Sudoku( config ) {
         },
 
         /**
-         * Find the legal values for this cell
+         * Find the legal values for the cell at row,col
+         * @param {Number} row
+         * @param {Number} col
+         * @returns {Array} A list of all possible legal values for this cell
          */
         findLegalValues: function( row, col ) {
-            var i, val, legalValues = []; 
+            var i, val, legalValues; 
             var sectRow = Math.floor( row / this.config.sectSize );
             var sectCol = Math.floor( col / this.config.sectSize );
     
-            for ( i = 1; i <= this.config.gridSize; ++i ) {
-                legalValues.push( i );
+            if ( this.config.gridSize === 9 ) {
+                legalValues = [ '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            } else if ( this.config.gridSize === 16 ) {
+                legalValues = [ '0', '1', '2', '3', '4', '5', '6', '7',
+                                '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
             }
 
             // Check existing numbers in the row
             for ( i = 0; i < this.config.gridSize; ++i ) {
-                var val = Number( this.matrix.row[row][i] );
-                if ( val > 0 ) {
+                var val = this.matrix.row[row][i];
+                if ( val !== "" ) {
                     // Remove this value from the legal numbers array
                     if ( legalValues.indexOf( val ) > -1 ) {
                         legalValues.splice( legalValues.indexOf( val ), 1 );
@@ -565,8 +678,8 @@ function Sudoku( config ) {
 
             // Check existing numbers in the col
             for ( i = 0; i < this.config.gridSize; ++i ) {
-                var val = Number( this.matrix.col[col][i] );
-                if ( val > 0 ) {
+                var val = this.matrix.col[col][i];
+                if ( val !== "" ) {
                     // Remove this value from the legal numbers array
                     if ( legalValues.indexOf( val ) > -1 ) {
                         legalValues.splice( legalValues.indexOf( val ), 1 );
@@ -576,8 +689,8 @@ function Sudoku( config ) {
 
             // Check existing numbers in section
             for ( i = 0; i < this.config.gridSize; ++i ) {
-                var val = Number( this.matrix.sect[sectRow][sectCol][i] );
-                if ( val > 0 ) {
+                var val = this.matrix.sect[sectRow][sectCol][i];
+                if ( val !== "" ) {
                     // Remove this value from the legal numbers array
                     if ( legalValues.indexOf( val ) > -1 ) {
                         legalValues.splice( legalValues.indexOf( val ), 1 );
