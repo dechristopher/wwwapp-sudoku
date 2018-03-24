@@ -1,0 +1,35 @@
+<html>
+<head>
+	<script src="timer.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		window.onload = function(){
+			var timer = new Timer();
+			timer.setTime();
+		
+			document.getElementById("start").addEventListener("click", function(){
+				timer.start();
+			});
+			document.getElementById("stop").addEventListener("click", function(){
+				timer.stop();
+			});
+			document.getElementById("reset").addEventListener("click", function(){
+				timer.resetTime();
+			});
+		}
+	</script>
+	
+	<h1>Timer</h1>
+	
+	<div id="timerDisplay">
+		<span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span>
+	</div>
+	
+	<div id="timerControls">
+		<button id="start">Start</button>
+		<button id="stop">Stop</button>
+		<button id="reset">Reset</button>
+	</div>
+</body>
+</html>
