@@ -16,6 +16,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const https = require('https');
 const timeout = require('express-timeout-handler');
+const cookieParser = require('cookie-parser');
 
 // Core Node Modules
 const fs = require('fs');
@@ -62,6 +63,8 @@ const sess = {
 // Ensure requests time out after 2 seconds
 app.use(timeout.handler(timeoutOptions));
 
+app.use(cookieParser());
+
 // Use the session middleware
 app.use(session(sess));
 
@@ -89,25 +92,57 @@ app.get('/', (req, res) => {
 	}
 });
 
+// Run the learn page template
+app.get('/learn', (req, res) => {
+	// TODO
+	log(`[GET /] ( ${req.ip} )`);
+	if (req.session.username) {
+		// Run logged-in home template
+		res.sendFile(path.join(__dirname + '/templates/learn_sudoku.html'));
+	}
+	else {
+		// Run standard home template
+		res.sendFile(path.join(__dirname + '/templates/learn_sudoku.html'));
+	}
+});
+
+// Run the learn page template
+app.get('/leaderboard', (req, res) => {
+	// TODO
+	log(`[GET /] ( ${req.ip} )`);
+	if (req.session.username) {
+		// Run logged-in home template
+		res.sendFile(path.join(__dirname + '/templates/leaderboard.html'));
+	}
+	else {
+		// Run standard home template
+		res.sendFile(path.join(__dirname + '/templates/leaderboard.html'));
+	}
+});
+
 // Log in and redirect to home
 app.post('/login', (req, res) => {
 	// TODO
 	let success;
 	// DO DB hit and verify credentials
 	req.session.username = req.body.username;
+	res.cookie('sid', req.session.id);
+	res.cookie('username', req.session.username);
 	log(`[POST /login] (LOGIN ${req.body.username} [${success}]) ( ${req.ip} )`);
 	res.redirect('/');
 });
 
 // Log out and redirect to home
 app.get('/logout', (req, res) => {
+	log(`[GET /logout] (LOGOUT ${req.session.username}) (${req.ip})`);
+	res.clearCookie('sid');
+	res.clearCookie('username');
 	req.session.destroy(function(err) {
 		if(err) {
 			log(`Session destruction error => ${err}`);
 			res.sendStatus(500);
 		}
 		// Redirect to home
-		log(`[GET /logout] (LOGOUT ${req.session.username}) (${req.ip})`);
 		res.redirect('/');
 	});
 });
