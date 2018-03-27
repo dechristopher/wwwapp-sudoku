@@ -1,0 +1,30 @@
+# NPM Modules
+node_modules/
+
+# Deprecated Modules
+modules/deprecated
+
+# Log folder
+logs/
+
+# Config file
+config.json
+
+# User privilege file
+priv.json
+
+# SSL Files
+private.key
+ssl.crt
+
+# NPM Debug Logs
+npm-debug.log
+
+# Stupid vscode generated files
+.vscode/
+
+# Unit Tests
+test/
+
+# Static HTML and JS
+static/
