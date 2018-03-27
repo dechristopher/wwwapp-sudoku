@@ -9,3 +9,6 @@ config.json
 
 # SSL certificate and private key
 ssl/
+
+# Logs
+logs/
