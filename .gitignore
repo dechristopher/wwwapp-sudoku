@@ -1,5 +1,11 @@
-# NPM Packages
+# NPM packages
 node_modules/
 
 # Node package lockfile
 package-lock.json
+
+# Configuration file
+config.json
+
+# SSL certificate and private key
+ssl/
