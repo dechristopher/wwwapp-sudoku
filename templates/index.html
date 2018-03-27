@@ -6,31 +6,31 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="cleartype" content="on">
-	<link rel="stylesheet" href="reset.css">
-	<link rel="stylesheet" href="index_stylesheet.css">
-	<link rel="stylesheet" href="register_stylesheet.css">
-	<link rel="stylesheet" href="login_stylesheet.css">
-	
-	<style> 
-		body 
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/index_stylesheet.css">
+	<link rel="stylesheet" href="css/register_stylesheet.css">
+	<link rel="stylesheet" href="css/login_stylesheet.css">
+
+	<style>
+		body
 		{
 			font-family: Arial, Helvetica, sans-serif;
-		}			
+		}
 	</style>
 </head>
 
 <body>
 	<div class="header">
 		<figure>
-			<a href="index.html" title="Play Free Sudoku" rel="home"> 
-			<img src="images/Sudoku.png" height="170" width="600" alt> </a> 
+			<a href="/" title="Play Free Sudoku" rel="home">
+			<img src="images/Sudoku.png" height="170" width="600" alt> </a>
 		</figure>
 	</div>
-	
+
 	<div class="navbar">
-		<a href="#">Learn Sudoku</a>
-		<a href="#">Leaderboard</a>
-		<a href="#">Daily Puzzle</a>
+		<a href="/learn">Learn Sudoku</a>
+		<a href="/leaderboard">Leaderboard</a>
+		<a href="/daily">Daily Puzzle</a>
 		<div class="dropdown">
 			<button class="dropbtn">Difficulty</button>
 				<div class="dropdown-content">
@@ -46,9 +46,9 @@
 			<button class="btn1" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
 		</a>
 	</div>
-	
+
 	<div id="id01" class="modal">
-		<form class="modal-content animate" action="/action_page.php">
+		<form class="modal-content animate" method="POST" action="/login">
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
 				<img src="images/avatar.png" alt="Avatar" class="avatar">
@@ -71,16 +71,16 @@
 			</div>
 		</form>
 	</div>
-	
+
 	<div id="id02" class="modal2">
-		<form class="modal2-content" action="/action_page.php">
-			
+		<form class="modal2-content" method="POST" action="/signup">
+
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id02').style.display='none'" class="close2" title="Close Modal">&times;</span>
 			</div>
-			
+
 			<div class="container2">
-				
+
 				<h2>Sign Up</h2>
 				<p>Please fill in this form to create an account:</p>
 					<hr>
@@ -103,10 +103,10 @@
 			</div>
 		</form>
 	</div>
-	
+
 	<div class="row">
 		<section class="main"><a href="#"></a></section>
-	</div>				
+	</div>
 </body>
 
 <footer>
