@@ -20,6 +20,7 @@ const timeout = require('express-timeout-handler');
 // Core Node Modules
 const fs = require('fs');
 const os = require('os');
+const path = require('path');
 
 // Custom Modules
 const log = require('./modules/log');
@@ -72,17 +73,19 @@ app.use(bodyParser.urlencoded({
 	extended: true,
 }));
 
+app.use(express.static('static'));
+
 // Run the homepage template
 app.get('/', (req, res) => {
 	// TODO
 	log(`[GET /] ( ${req.ip} )`);
 	if(req.session.username) {
 		// Run logged-in home template
-		res.send('HOME');
+		res.sendFile(path.join(__dirname + '/templates/index.html'));
 	}
 	else {
 		// Run standard home template
-		res.send('HOME');
+		res.sendFile(path.join(__dirname + '/templates/index.html'));
 	}
 });
 
