@@ -73,7 +73,7 @@ app.use(bodyParser.urlencoded({
 	extended: true,
 }));
 
-app.use(express.static('static'));
+app.use(express.static('templates/assets'));
 
 // Run the homepage template
 app.get('/', (req, res) => {
