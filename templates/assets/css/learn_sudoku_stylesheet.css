@@ -61,7 +61,7 @@ figcaption
 
 .header .figure_logo 
 {
-    padding: 60px; /* some padding */
+    padding: 20px; /* some padding */
     text-align: center; /* center the text */
     background: #34C9C2; /* Aqua background */
 }
@@ -127,7 +127,7 @@ figcaption
 
 .footer 
 {
-    padding: 50px; /* Some padding */
+    padding: 20px; /* Some padding */
     text-align: center; /* Center text*/
 	color: white; /* White text color */
 	text-decoration: none; /* Remove underline */

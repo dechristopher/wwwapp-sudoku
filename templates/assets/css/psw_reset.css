@@ -1,7 +1,7 @@
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box}
 /* Full-width input fields */
-.input2[type=text], .input2[type=password] 
+.input3[type=text], .input3[type=password] 
 {
     width: 100%;
     padding: 15px;
@@ -12,57 +12,59 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 
 /* Add a background color when the inputs get focus */
-.input2[type=text]:focus, .input2[type=password]:focus 
+.input3[type=text]:focus, .input3[type=password]:focus 
 {
     background-color: #ddd;
     outline: none;
 }
 
 /* Set a style for register option on front page */
-.btn2
+.btn3
 {
     background-color: #FF590C;
     color: white;
     padding: 14px 20px;
+    margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;
+    opacity: 0.9;
 }
 
-.btn2:hover 
+.btn3:hover 
 {
     opacity:1;
 }
 
 /* Style for the registration button */
-.registerbtn 
+.submitbtn 
 {
 	padding: 14px 20px;
     background-color: #4CAF50;
 }
 
 /* Styles for the cancel button */
-.cancelbtn2 
+.cancelbtn3 
 {
     padding: 14px 20px;
     background-color: #f44336;
 }
 
 /* Float Cancel and Register buttons and add an equal width */
-.cancelbtn2, .registerbtn 
+.cancelbtn3, .submitbtn 
 {
   float: left;
   width: 50%;
 }
 
 /* Add padding to container elements */
-.container2 
+.container3
 {
     padding: 16px;
 }
 
 /* The Modal (background) */
-.modal2 
+.modal3
 {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -77,7 +79,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 
 /* Modal Content/Box */
-.modal2-content 
+.modal3-content 
 {
     background-color: #fefefe;
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
@@ -93,7 +95,7 @@ hr
 }
  
 /* The Close Button (x) */
-.close2 
+.close3
 {
     position: absolute;
     right: 35px;
@@ -103,8 +105,8 @@ hr
     font-weight: bold;
 }
 
-.close2:hover,
-.close2:focus 
+.close3:hover,
+.close3:focus 
 {
     color: #f44336;
     cursor: pointer;
@@ -121,7 +123,7 @@ hr
 /* Change styles for Cancel button and Register button on extra small screens */
 @media screen and (max-width: 300px) 
 {
-    .cancelbtn2, .registerbtn 
+    .cancelbtn3, .submitbtn 
 	{
        width: 100%;
     }

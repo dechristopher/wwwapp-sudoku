@@ -18,16 +18,16 @@ body {font-family: Arial, Helvetica, sans-serif;}
     outline: none;
 }
 
-/* Set a style for all buttons */
+/* Set a style for login button on front page */
 .btn1 
 {
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
-    margin: 8px 0;
     border: none;
     cursor: pointer;
     width: 100%;
+	display: block;
 }
 
 .btn1:hover 
