@@ -22,6 +22,12 @@
   },
   "homepage": "https://github.com/dechristopher/wwwapp-sudoku#readme",
   "dependencies": {
-    "express": "^4.16.2"
+    "body-parser": "^1.18.2",
+    "chalk": "^2.3.2",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "express-timeout-handler": "^2.1.2",
+    "https": "^1.0.0",
+    "node-datetime": "^2.0.6"
   }
 }
