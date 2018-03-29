@@ -11,13 +11,6 @@
 	<link rel="stylesheet" href="assets/css/register_stylesheet.css">
 	<link rel="stylesheet" href="assets/css/login_stylesheet.css">
 	<link rel="stylesheet" href="assets/css/psw_reset.css">
-	
-	<style> 
-		body 
-		{
-			font-family: Arial, Helvetica, sans-serif;
-		}			
-	</style>
 </head>
 
 <body>
@@ -29,9 +22,10 @@
 	</div>
 	
 	<div class="navbar">
-		<a href="learn_sudoku.html">Learn Sudoku</a>
-		<a href="leaderboard.html">Leaderboard</a>
-		<a href="#">Daily Puzzle</a>
+		<a href="learn_sudoku.html" class="left active">Home</a>
+		<a href="learn_sudoku.html" class="left">Learn Sudoku</a>
+		<a href="leaderboard.html" class="left">Leaderboard</a>
+		<a href="#" class="left">Daily Puzzle</a>
 		<div class="dropdown">
 			<button class="dropbtn">Difficulty</button>
 				<div class="dropdown-content">
@@ -39,7 +33,7 @@
 				<a href="#">Medium</a>
 				<a href="#">Hard</a>
 				</div>
-			</div>
+		</div>
 		<a href="#" class="right">
 			<button class="btn2" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</button>
 		</a>
