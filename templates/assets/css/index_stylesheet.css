@@ -1,6 +1,47 @@
+h1, h2, h3, p, body, div 
+{
+   font-family: Tahoma, Helvetica, sans-serif;
+   margin: 0;
+   padding: 0;  
+}
+
+h1  
+{  
+   font-size: 1.8em; 
+   margin: 0.25em 0 0.25em 0;
+}
+
+h2  
+{   
+   font-size: 1.2em;    
+   margin: 0.5em 0 0.25em 0;
+}
+
+p, body 
+{
+   font-size: 0.9em;
+}
+ 
+p 
+{
+   margin-bottom: 1em;
+}
+  
+body 
+{
+   background-color: white; 
+}
+
+article 
+{
+   background-color: #C7C6C6;
+   margin: 0em 0em 0em 0em;
+   padding: 1em 20px;
+}
+
 .header 
 {
-    padding: 20px; /* some padding */
+    padding: 10px; /* some padding */
     text-align: center; /* center the text */
     background: #34C9C2; /* Aqua background */
 }
@@ -18,7 +59,7 @@
     display: block; /* Change the display to block, for responsive reasons (see below) */
     color: white; /* White text color */
     text-align: center; /* Center the text */
-    padding: 25px 20px; /* Add some padding */
+    padding: 10px 20px; /* Add some padding */
     text-decoration: none; /* Remove underline */
 }
 
@@ -26,6 +67,12 @@
 .navbar a.right 
 {
     float: right; /* Float a link to the right */
+}
+
+.navbar a.left
+{
+	float: left;
+	margin-top: 10px;
 }
 
 /* Change color on hover/mouse-over */
@@ -40,6 +87,7 @@
 {
     float: left;
     overflow: hidden;
+	margin-top: 10px;
 }
 
 .dropdown .dropbtn 
@@ -48,9 +96,9 @@
     border: none;
     outline: none;
     color: white;
-    padding: 25px 20px;
+    padding: 10px 20px;
     background-color: inherit;
-    font-family: inherit;
+    font-family: Tahoma;
 }
 
 .dropdown-content 
@@ -81,6 +129,12 @@
 .dropdown:hover .dropdown-content 
 {
     display: block;
+}
+
+.active 
+{
+    background-color: #FF0000;
+    color: white;
 }
 
 /* Column container */

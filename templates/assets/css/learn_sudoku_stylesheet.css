@@ -79,7 +79,7 @@ figcaption
     display: block; /* Change the display to block, for responsive reasons (see below) */
     color: white; /* White text color */
     text-align: center; /* Center the text */
-    padding: 25px 20px; /* Add some padding */
+    padding: 10px 20px; /* Add some padding */
     text-decoration: none; /* Remove underline */
 }
 
@@ -87,6 +87,15 @@ figcaption
 .navbar a.right 
 {
     float: right; /* Float a link to the right */
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.navbar a.left
+{
+	float: left;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 /* Change color on hover/mouse-over */
@@ -94,6 +103,12 @@ figcaption
 {
     background-color: #ddd; /* Grey background color */
     color: black; /* Black text color */
+}
+
+.active 
+{
+    background-color: #FF0000;
+    color: #4CAF50;
 }
 
 .overlayed 

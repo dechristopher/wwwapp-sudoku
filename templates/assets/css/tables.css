@@ -1,6 +1,6 @@
 #leaders 
 {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-family: "Trebuchet MS", Tahoma, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
@@ -26,18 +26,8 @@
 
 .table
 {	
-	padding-top: 75px;
-    padding-bottom: 75px;
-	padding-left: 75px;
-	padding-right: 75px;
-}
-
-.c1
-{
-
-}
-
-.c2
-{
-
+	padding-top: 150px;
+    padding-bottom: 150px;
+	padding-left: 150px;
+	padding-right: 150px;
 }
