@@ -10,7 +10,7 @@ const os = require('os');
 
 // Static variables
 const hostname = os.hostname();
-const LOG = `[${c.green('relva')} ~ ${hostname}]`;
+const LOG = `[${c.green('sudocrew')} ~ ${hostname}]`;
 
 /* Wraps console.log for printing pretty logging to stdout and to a file
     message: (string) message to log
