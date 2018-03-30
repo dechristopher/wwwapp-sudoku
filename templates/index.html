@@ -10,27 +10,22 @@
 	<link rel="stylesheet" href="css/index_stylesheet.css">
 	<link rel="stylesheet" href="css/register_stylesheet.css">
 	<link rel="stylesheet" href="css/login_stylesheet.css">
-
-	<style>
-		body
-		{
-			font-family: Arial, Helvetica, sans-serif;
-		}
-	</style>
+	<link rel="stylesheet" href="css/psw_reset.css">
 </head>
 
 <body>
 	<div class="header">
 		<figure>
-			<a href="/" title="Play Free Sudoku" rel="home">
-			<img src="images/Sudoku.png" height="170" width="600" alt> </a>
+			<a href="index.html" title="Play Free Sudoku" rel="home">
+			<img src="images/Sudoku.png" height="100" width="400" alt> </a>
 		</figure>
 	</div>
 
 	<div class="navbar">
-		<a href="/learn">Learn Sudoku</a>
-		<a href="/leaderboard">Leaderboard</a>
-		<a href="/daily">Daily Puzzle</a>
+		<a href="learn_sudoku.html" class="left active">Home</a>
+		<a href="learn_sudoku.html" class="left">Learn Sudoku</a>
+		<a href="leaderboard.html" class="left">Leaderboard</a>
+		<a href="#" class="left">Daily Puzzle</a>
 		<div class="dropdown">
 			<button class="dropbtn">Difficulty</button>
 				<div class="dropdown-content">
@@ -38,7 +33,7 @@
 				<a href="#">Medium</a>
 				<a href="#">Hard</a>
 				</div>
-			</div>
+		</div>
 		<a href="#" class="right">
 			<button class="btn2" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</button>
 		</a>
@@ -67,13 +62,13 @@
 
 			<div class="container" style="background-color:#f1f1f1">
 				<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-				<span class="psw">Forgot <a href="#">password?</a></span>
+				<span class="psw"><a href="#" onclick="document.getElementById('id03').style.display='block'">Forgot password?</a></span>
 			</div>
 		</form>
 	</div>
 
 	<div id="id02" class="modal2">
-		<form class="modal2-content" method="POST" action="/signup">
+		<form class="modal2-content" method="POST" action="/register">
 
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id02').style.display='none'" class="close2" title="Close Modal">&times;</span>
@@ -99,6 +94,29 @@
 				<div class="clearfix">
 					<button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn2">Cancel</button>
 					<button type="submit" class="registerbtn">Register</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="id03" class="modal3">
+		<form class="modal3-content" method="POST" action="/register">
+
+			<div class="imgcontainer">
+				<span onclick="document.getElementById('id03').style.display='none'" class="close3" title="Close Modal">&times;</span>
+			</div>
+
+			<div class="container3">
+				<h2>Please enter your email to receive your password.</h2>
+					<hr>
+				<label for="email"><b>Email:</b></label>
+					<input class="input3" type="text" placeholder="Enter Email" name="email" required>
+				</label>
+
+				<div class="clearfix">
+					<button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn3">Cancel</button>
+					<button type="submit" class="submitbtn">Submit</button>
+					<p>A confirmation email with your password was sent to the email provided above.</p>
 				</div>
 			</div>
 		</form>

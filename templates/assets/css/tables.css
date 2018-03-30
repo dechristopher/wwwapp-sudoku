@@ -1,0 +1,33 @@
+#leaders 
+{
+    font-family: "Trebuchet MS", Tahoma, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#leaders td, #leaders th 
+{
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#leaders tr:nth-child(even){background-color: #f2f2f2;}
+
+#leaders tr:hover {background-color: #ddd;}
+
+#leaders th 
+{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.table
+{	
+	padding-top: 150px;
+    padding-bottom: 150px;
+	padding-left: 150px;
+	padding-right: 150px;
+}
