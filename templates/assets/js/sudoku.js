@@ -65,12 +65,9 @@ function Sudoku( config ) {
      * Default configuration information
      */
     var defaultConfig = {
-        // The size of the full sudoku puzzle
-        // 9 is the standard sudoku size
-        gridSize: 9,
-        // The size of a section of the sudoku puzzle
-        // must be the square root of the gridSize
-        sectSize: 3,
+        // Specifies the type of sudoku.
+        // Valid values are "Normal", "Big", and "Diagonal"
+        type: "Normal",
         // The seed value of this puzzle
         // A specific seed will produce only one puzzle every time
         // Must be an integer > 0.
@@ -89,6 +86,10 @@ function Sudoku( config ) {
     var init = function( config ) {
         var conf = $.extend( {}, defaultConfig, config );
         _game = new Game( conf );
+        if ( !_game ) {
+            console.log( "Game did not initialize properly, aborting..." );
+            return "Error! Sudoku could not initialize.";
+        }
 
         $table = _game.buildTable();
 
@@ -159,6 +160,16 @@ function Sudoku( config ) {
      * @param {Object} config configuration data
      */
     function Game( config ) {
+        if ( config.type === "Normal" || config.type === "Diagonal" ) {
+            this.gridSize = 9;
+            this.sectSize = 3;
+        } else if ( this.config.type === "Big" ) {
+            this.gridSize = 16;
+            this.sectSize = 4;
+        } else {
+            alert( "Invalid Puzzle type! Please use \"Normal\", \"Big\", or \"Diagonal\"." );
+            return null;
+        }
         this.config = config;
         this.$inputCells = {};
         this.matrix = {};
@@ -182,11 +193,11 @@ function Sudoku( config ) {
             var $tr;
             var $td;
 
-            for ( i = 0; i < this.config.gridSize; ++i ) {
+            for ( i = 0; i < this.gridSize; ++i ) {
                 $tr = $( "<tr>" );
                 this.$inputCells[i] = {};
 
-                for ( j = 0; j < this.config.gridSize; ++j ) {
+                for ( j = 0; j < this.gridSize; ++j ) {
                     this.$inputCells[i][j] = $( "<input>" )
                         .attr( "maxlength", 1 )
                         .data( "row", i )
@@ -194,14 +205,21 @@ function Sudoku( config ) {
                         .on( "input", $.proxy( this.onInput, this ) );
 
                     $td = $( "<td>" ).append( this.$inputCells[i][j] );
-                    
-                    // Style the sections in a checkerboard pattern
-                    var sectRow = Math.floor( i / this.config.sectSize );
-                    var sectCol = Math.floor( j / this.config.sectSize );
-                    if ( ( sectRow + sectCol ) % 2 === 0 ) {
-                        $td.addClass( "sudoku-section-one" );
-                    } else {
-                        $td.addClass( "sudoku-section-two" );
+
+                    // This adds the inner puzzle border styles
+                    if ( i !== 0 && i % this.sectSize === 0 ) {
+                        $td.addClass( "sudoku-section-top" );
+                    }
+                    if ( j !== 0 && j % this.sectSize === 0 ) {
+                        $td.addClass( "sudoku-section-left" );
+                    }
+
+                    // This will highlight the diagonal cell entries if this is a Diagonal sudoku
+                    if ( this.config.type === "Diagonal" && i === j ) {
+                        $td.addClass( "sudoku-diagonal" );
+                    }
+                    if ( this.config.type === "Diagonal" && i + j === this.gridSize - 1 ) {
+                        $td.addClass( "sudoku-diagonal" );
                     }
 
                     $tr.append( $td );
@@ -227,11 +245,6 @@ function Sudoku( config ) {
             oldVal = this.matrix.row[row][col];
             $( e.currentTarget ).val( val ); // changes to uppercase if necessary
 
-            // Calculate which section we are in
-            sectRow = Math.floor( row / this.config.sectSize );
-            sectCol = Math.floor( col / this.config.sectSize );
-            sectIndex = ( row % this.config.sectSize ) * this.config.sectSize + ( col % this.config.sectSize );
-
             // Discard invalid inputs
             if ( !this.isValidInput( val ) ) {
                 val = "";
@@ -241,10 +254,7 @@ function Sudoku( config ) {
             isValid = this.validateEntry( val, row, col, oldVal );
             $( e.currentTarget ).toggleClass( "sudoku-input-error", !isValid );
 
-            // Store the value in the solution matrix
-            this.matrix.row[row][col] = val;
-            this.matrix.col[col][row] = val;
-            this.matrix.sect[sectRow][sectCol][sectIndex] = val;
+            this.setMatrixEntry( val, row, col );
         },
 
         /**
@@ -253,9 +263,9 @@ function Sudoku( config ) {
          * @returns {Boolean} true if val is valid
          */
         isValidInput: function( val ) {
-            if ( this.config.gridSize === 9 ) {
+            if ( this.gridSize === 9 ) {
                 return $.isNumeric( val ) && parseInt( val, 10 ) > 0;
-            } else if ( this.config.gridSize === 16 ) {
+            } else if ( this.gridSize === 16 ) {
                 var hexReg = /[0-9A-F]/
                 return hexReg.test( val );
             }
@@ -267,20 +277,31 @@ function Sudoku( config ) {
         resetPuzzle: function() {
             var row, col, sectRow, sectCol, sectIndex, val;
             this.resetMatrices();
-            for ( row = 0; row < this.config.gridSize; ++row ) {
-                for ( col = 0; col < this.config.gridSize; ++col ) {
+            for ( row = 0; row < this.gridSize; ++row ) {
+                for ( col = 0; col < this.gridSize; ++col ) {
                     // If the input is read-only, repopulate the matrices
                     // otherwise, clear the input
                     if ( this.$inputCells[row][col].prop( "readonly" ) ) {
                         val = this.$inputCells[row][col].val();
-                        sectRow = Math.floor( row / this.config.sectSize );
-                        sectCol = Math.floor( col / this.config.sectSize );
+                        sectRow = Math.floor( row / this.sectSize );
+                        sectCol = Math.floor( col / this.sectSize );
 
-                        this.matrix.row[row][col] = val;
-                        this.matrix.col[col][row] = val;
-                        this.matrix.sect[sectRow][sectCol][sectIndex] = val;
+                        this.setMatrixEntry( val, row, col );
+
+                        this.validation.row[row].push( val );
+                        this.validation.col[col].push( val );
+                        this.validation.sect[sectRow][sectCol].push( val );
+
+                        if ( this.config.type === "Diagonal" ) {
+                            if ( row === col ) {
+                                this.validation.diag[0].push( val );
+                            } else if ( row + col === this.gridSize - 1 ) {
+                                this.validation.diag[1].push( val );
+                            }
+                        }
                     } else {
                         this.$inputCells[row][col].val( "" );
+                        this.$inputCells[row][col].removeClass( "sudoku-input-error" );
                     }
                 }
             }
@@ -294,21 +315,54 @@ function Sudoku( config ) {
             this.matrix = { row: [], col: [], sect: [] };
             this.validation = { row: [], col: [], sect: [] };
 
-            for ( i = 0; i < this.config.gridSize; ++i ) {
-                this.matrix.row[i] = Array.from({length:this.config.gridSize}, x => '');
-                this.matrix.col[i] = Array.from({length:this.config.gridSize}, x => '');
+            for ( i = 0; i < this.gridSize; ++i ) {
+                this.matrix.row[i] = Array.from({length:this.gridSize}, x => '');
+                this.matrix.col[i] = Array.from({length:this.gridSize}, x => '');
                 this.validation.row[i] = [];
                 this.validation.col[i] = [];
             }
             
-            for ( i = 0; i < this.config.sectSize; ++i ) {
+            for ( i = 0; i < this.sectSize; ++i ) {
                 this.matrix.sect[i] = [];
                 this.validation.sect[i] = [];
-                for ( j = 0; j < this.config.sectSize; ++j ) {
-                    this.matrix.sect[i][j] = Array.from({length:this.config.gridSize}, x => '');
+                for ( j = 0; j < this.sectSize; ++j ) {
+                    this.matrix.sect[i][j] = Array.from({length:this.gridSize}, x => '');
                     this.validation.sect[i][j] = [];
                 }
             }
+
+            // Add the diagonal matrices if this is a diagonal puzzle
+            this.matrix.diag = [];
+            this.matrix.diag[0] = Array.from({length:this.gridSize}, x => '');
+            this.matrix.diag[1] = Array.from({length:this.gridSize}, x => '');
+            this.validation.diag = [];
+            this.validation.diag[0] = [];
+            this.validation.diag[1] = [];
+        },
+
+        /**
+         * Set the value of the matrices' cells at row,col
+         * @param {String} val the entry
+         * @param {Number} row the row index
+         * @param {Number} col the col index
+         * @returns {String} the old value in the matrices' cells
+         */
+        setMatrixEntry: function( val, row, col ) {
+            var oldVal = this.matrix.row[row][col];
+            var sectRow = Math.floor( row / this.sectSize );
+            var sectCol = Math.floor( col / this.sectSize );
+            var sectIndex = ( row % this.sectSize ) * this.sectSize + ( col % this.sectSize );
+
+            this.matrix.row[row][col] = val;
+            this.matrix.col[col][row] = val;
+            this.matrix.sect[sectRow][sectCol][sectIndex] = val;
+            if ( row === col ) {
+                this.matrix.diag[0][row] = val;
+            } 
+            if ( row + col === this.gridSize - 1 ) {
+                this.matrix.diag[1][row] = val;
+            }
+            return oldVal;
         },
 
         /**
@@ -319,8 +373,8 @@ function Sudoku( config ) {
         validatePuzzle: function() {
             var val, isValid, error = false, complete = true;
 
-            for ( var row = 0; row < this.config.gridSize; ++row ) {
-                for ( var col = 0; col < this.config.gridSize; ++col ) {
+            for ( var row = 0; row < this.gridSize; ++row ) {
+                for ( var col = 0; col < this.gridSize; ++col ) {
                     // Don't validate the read only puzzle entries
                     if ( !this.$inputCells[row][col].prop( "readonly" ) ) {
                         val = this.$inputCells[row][col].val();
@@ -350,8 +404,8 @@ function Sudoku( config ) {
          */
         validateEntry: function( val, row, col, oldVal ) {
             var isValid;
-            var sectRow = Math.floor( row / this.config.sectSize );
-            var sectCol = Math.floor( col / this.config.sectSize );
+            var sectRow = Math.floor( row / this.sectSize );
+            var sectCol = Math.floor( col / this.sectSize );
 
             // Remove the old value from the validation matrix
             if ( oldVal !== "" ) {
@@ -370,18 +424,41 @@ function Sudoku( config ) {
                         $.inArray( oldVal, this.validation.sect[sectRow][sectCol] ), 1
                     );
                 }
+                if ( this.config.type === "Diagonal" ) {
+                    if ( row === col && $.inArray( oldVal, this.validation.diag[0] ) > -1 ) {
+                        this.validation.diag[0].splice(
+                            $.inArray( oldVal, this.validation.diag[0] ), 1
+                        );
+                    } else if ( row + col === this.gridSize - 1 && $.inArray( oldVal, this.validation.diag[1] ) > -1 ) {
+                        this.validation.diag[1].splice(
+                            $.inArray( oldVal, this.validation.diag[1] ), 1
+                        );
+                    }
+                }
             }
 
             // If the val is already in the array, this input is invalid
-            isValid = $.inArray( val, this.validation.row[row] ) === -1 &&
-                $.inArray( val, this.validation.col[col] ) === -1 &&
-                $.inArray( val, this.validation.sect[sectRow][sectCol] ) === -1;
+            isValid = true;
+            if ( $.inArray( val, this.validation.row[row] ) > -1 )                      isValid = false;
+            else if ( $.inArray( val, this.validation.col[col] ) > -1 )                 isValid = false;
+            else if ( $.inArray( val, this.validation.sect[sectRow][sectCol] ) > -1 )   isValid = false;
+            else if ( this.config.type === "Diagonal" && row === col &&
+                      $.inArray( val, this.validation.diag[0] ) > -1 )                  isValid = false;
+            else if ( this.config.type === "Diagonal" && row + col === this.gridSize - 1 &&
+                      $.inArray( val, this.validation.diag[1] ) > -1 )                  isValid = false;
             
             // Add the new value to the validation matrix
             if ( val !== "" ) {
                 this.validation.row[row].push( val );
                 this.validation.col[col].push( val );
                 this.validation.sect[sectRow][sectCol].push( val );
+                if ( this.config.type === "Diagonal" ) {
+                    if ( row === col ) {
+                        this.validation.diag[0].push( val );
+                    } else if ( row + col === this.gridSize - 1 ) {
+                        this.validation.diag[1].push( val );
+                    }
+                }
             }
 
             return isValid;
@@ -413,15 +490,23 @@ function Sudoku( config ) {
 
             // Make the remaining numbers readonly
             // and add them to the validation matrix
-            for ( row = 0; row < this.config.gridSize; ++row ) {
-                for ( col = 0; col < this.config.gridSize; ++col ) {
+            for ( row = 0; row < this.gridSize; ++row ) {
+                for ( col = 0; col < this.gridSize; ++col ) {
                     if ( this.$inputCells[row][col].val() !== "" ) {
-                        sectRow = Math.floor( row / this.config.sectSize );
-                        sectCol = Math.floor( col / this.config.sectSize );
+                        var val = this.$inputCells[row][col].val();
+                        sectRow = Math.floor( row / this.sectSize );
+                        sectCol = Math.floor( col / this.sectSize );
                         this.$inputCells[row][col].prop( "readonly", true );
-                        this.validation.row[row].push( this.$inputCells[row][col].val() );
-                        this.validation.col[col].push( this.$inputCells[row][col].val() );
-                        this.validation.sect[sectRow][sectCol].push( this.$inputCells[row][col].val() );
+                        this.validation.row[row].push( val );
+                        this.validation.col[col].push( val );
+                        this.validation.sect[sectRow][sectCol].push( val );
+                        if ( this.config.type === "Diagonal" ) {
+                            if ( row === col ) {
+                                this.validation.diag[0].push( val );
+                            } else if ( row + col === this.gridSize - 1 ) {
+                                this.validation.diag[1].push( val );
+                            }
+                        }
                     }
                 }
             }
@@ -459,9 +544,6 @@ function Sudoku( config ) {
 
             row = next.square.row;
             col = next.square.col;
-            sectRow = Math.floor( row / this.config.sectSize );
-            sectCol = Math.floor( col / this.config.sectSize );
-            sectIndex = ( row % this.config.sectSize ) * this.config.sectSize + ( col % this.config.sectSize );
 
             // remove this square from the empty squares list
             emptySquares.splice( emptySquares.indexOf( next.square ), 1 );
@@ -472,10 +554,8 @@ function Sudoku( config ) {
 
                 // Update the value in the input cell
                 this.$inputCells[row][col].val( val );
-                // Update the value in the matrices
-                this.matrix.row[row][col] = val;
-                this.matrix.col[col][row] = val;
-                this.matrix.sect[sectRow][sectCol][sectIndex] = val;
+                
+                this.setMatrixEntry( val, row, col );
 
                 // Try to solve the puzzle with the new entry in place
                 if ( this._solvePuzzle( emptySquares ) ) {
@@ -487,9 +567,7 @@ function Sudoku( config ) {
             // all the values for this cell, add it back to the empty
             // squares list and return to an earlier step
             this.$inputCells[row][col].val( '' );
-            this.matrix.row[row][col] = '';
-            this.matrix.col[col][row] = '';
-            this.matrix.sect[sectRow][sectCol][sectIndex] = '';
+            this.setMatrixEntry( '', row, col );
             emptySquares.push( next.square );
             return false;
         },
@@ -508,35 +586,31 @@ function Sudoku( config ) {
             while ( clearedCells < cellsToClear ) {
                 var val, row, col, sectRow, sectCol, sectIndex,
                     symVal, symSectIndex;
-                row = this.rand.nextInt( 0, this.config.gridSize );
-                col = this.rand.nextInt( 0, this.config.gridSize );
+                row = this.rand.nextInt( 0, this.gridSize );
+                col = this.rand.nextInt( 0, this.gridSize );
                 
                 // Check if this cell has already been cleared
                 if ( this.$inputCells[row][col].val() !== '' ) {
                     val = this.$inputCells[row][col].val();
-                    sectRow = Math.floor( row / this.config.sectSize );
-                    sectCol = Math.floor( col / this.config.sectSize );
-                    sectIndex = ( row % this.config.sectSize ) * this.config.sectSize
-                        + ( col % this.config.sectSize );
+                    sectRow = Math.floor( row / this.sectSize );
+                    sectCol = Math.floor( col / this.sectSize );
+                    sectIndex = ( row % this.sectSize ) * this.sectSize
+                        + ( col % this.sectSize );
 
                     // Clear all the data associated 
                     this.$inputCells[row][col].val( '' );
-                    this.matrix.row[row][col] = '';
-                    this.matrix.col[col][row] = '';
-                    this.matrix.sect[sectRow][sectCol][sectIndex] = '';
+                    this.setMatrixEntry( '', row, col );
                     
                     ++clearedCells;
 
                     // Remove the symmetric cell if we're not on the diagonal
                     if ( row !== col ) {
                         symVal = this.$inputCells[col][row].val();
-                        symSectIndex = ( col % this.config.sectSize ) * this.config.sectSize
-                            + ( row % this.config.sectSize );
+                        symSectIndex = ( col % this.sectSize ) * this.sectSize
+                            + ( row % this.sectSize );
                         
                         this.$inputCells[col][row].val( '' );
-                        this.matrix.row[col][row] = '';
-                        this.matrix.col[row][col] = '';
-                        this.matrix.sect[sectCol][sectRow][symSectIndex] = '';
+                        this.setMatrixEntry( '', col, row );
 
                         ++clearedCells;
                     }
@@ -545,17 +619,13 @@ function Sudoku( config ) {
                     //  undo what we've done
                     if ( !this.hasUniqueSolution() ) {
                         this.$inputCells[row][col].val( val );
-                        this.matrix.row[row][col] = val;
-                        this.matrix.col[col][row] = val;
-                        this.matrix.sect[sectRow][sectCol][sectIndex] = val;
+                        this.setMatrixEntry( val, row, col );
 
                         --clearedCells;
 
                         if ( row !== col ) {
                             this.$inputCells[col][row].val( symVal );
-                            this.matrix.row[col][row] = symVal;
-                            this.matrix.col[row][col] = symVal;
-                            this.matrix.sect[sectCol][sectRow][symSectIndex] = symVal;
+                            this.setMatrixEntry( symVal, col, row );
     
                             --clearedCells;
                         }
@@ -582,8 +652,8 @@ function Sudoku( config ) {
             var row, col;
             var emptySquares = [];
 
-            for ( row = 0; row < this.config.gridSize; ++row ) {
-                for ( col = 0; col < this.config.gridSize; ++col ) {
+            for ( row = 0; row < this.gridSize; ++row ) {
+                for ( col = 0; col < this.gridSize; ++col ) {
                     if ( this.$inputCells[row][col].val() === '' ) {
                         emptySquares.push( { row: row, col: col } );
                     }
@@ -602,7 +672,7 @@ function Sudoku( config ) {
          */
         findBestEmptySquare: function( emptySquares ) {
             var i, legalValues, index;
-            var minValues = this.config.gridSize;
+            var minValues = this.gridSize;
             var potentialSquares = [];
 
             for ( i = 0; i < emptySquares.length; ++i ) {
@@ -655,18 +725,18 @@ function Sudoku( config ) {
          */
         findLegalValues: function( row, col ) {
             var i, val, legalValues; 
-            var sectRow = Math.floor( row / this.config.sectSize );
-            var sectCol = Math.floor( col / this.config.sectSize );
+            var sectRow = Math.floor( row / this.sectSize );
+            var sectCol = Math.floor( col / this.sectSize );
     
-            if ( this.config.gridSize === 9 ) {
+            if ( this.gridSize === 9 ) {
                 legalValues = [ '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-            } else if ( this.config.gridSize === 16 ) {
+            } else if ( this.gridSize === 16 ) {
                 legalValues = [ '0', '1', '2', '3', '4', '5', '6', '7',
                                 '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
             }
 
             // Check existing numbers in the row
-            for ( i = 0; i < this.config.gridSize; ++i ) {
+            for ( i = 0; i < this.gridSize; ++i ) {
                 var val = this.matrix.row[row][i];
                 if ( val !== "" ) {
                     // Remove this value from the legal numbers array
@@ -677,7 +747,7 @@ function Sudoku( config ) {
             }
 
             // Check existing numbers in the col
-            for ( i = 0; i < this.config.gridSize; ++i ) {
+            for ( i = 0; i < this.gridSize; ++i ) {
                 var val = this.matrix.col[col][i];
                 if ( val !== "" ) {
                     // Remove this value from the legal numbers array
@@ -688,12 +758,38 @@ function Sudoku( config ) {
             }
 
             // Check existing numbers in section
-            for ( i = 0; i < this.config.gridSize; ++i ) {
+            for ( i = 0; i < this.gridSize; ++i ) {
                 var val = this.matrix.sect[sectRow][sectCol][i];
                 if ( val !== "" ) {
                     // Remove this value from the legal numbers array
                     if ( legalValues.indexOf( val ) > -1 ) {
                         legalValues.splice( legalValues.indexOf( val ), 1 );
+                    }
+                }
+            }
+
+            // Check existing numbers on the diagonal, if relevant
+            if ( this.config.type === "Diagonal" ) {
+                if ( row === col ) {
+                    for ( i = 0; i < this.gridSize; ++i ) {
+                        var val = this.matrix.diag[0][i];
+                        if ( val !== "" ) {
+                            // Remove this value from the legal numbers array
+                            if ( legalValues.indexOf( val ) > -1 ) {
+                                legalValues.splice( legalValues.indexOf( val ), 1 );
+                            }
+                        }
+                    }
+                }
+                if ( row + col === this.gridSize - 1 ) {
+                    for ( i = 0; i < this.gridSize; ++i ) {
+                        var val = this.matrix.diag[1][i];
+                        if ( val !== "" ) {
+                            // Remove this value from the legal numbers array
+                            if ( legalValues.indexOf( val ) > -1 ) {
+                                legalValues.splice( legalValues.indexOf( val ), 1 );
+                            }
+                        }
                     }
                 }
             }
