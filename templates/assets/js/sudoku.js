@@ -180,7 +180,7 @@ var Sudoku = function( config ) {
         if ( config.type === "Normal" || config.type === "Diagonal" ) {
             this.gridSize = 9;
             this.sectSize = 3;
-        } else if ( this.config.type === "Big" ) {
+        } else if ( config.type === "Big" ) {
             this.gridSize = 16;
             this.sectSize = 4;
         } else {
@@ -545,7 +545,7 @@ var Sudoku = function( config ) {
          * @returns {Boolean} true if the puzzle was solved on this path
          */
         _solvePuzzle: function( emptySquares ) {
-            var next, i, row, col, sectRow, sectCol, sectIndex, val;
+            var next, i, row, col, val;
 
             // If there are no more empty squares, the puzzle is solved
             if ( emptySquares.length === 0 ) {
@@ -596,41 +596,51 @@ var Sudoku = function( config ) {
          */
         createUniquePuzzle: function() {
             // TODO Take into account difficulty level
-            var cellsToClear, clearedCells;
+            var cellsToClear, clearedCells, givenCells;
 
-            cellsToClear = 41; // need to make this based on difficulty level
+            switch (this.config.difficulty) {
+            case "Easy":
+                cellsToClear = 36;
+                break;
+            case "Medium":
+                cellsToClear = 46;
+                break;
+            case "Hard":
+                cellsToClear = 64;
+                break;
+            default:
+                console.log("Error: Tried to create puzzle with invalid puzzle difficulty");
+            }
+            if (this.config.type == "Big") {
+                cellsToClear = Math.floor( cellsToClear * 16/9 );
+            }
+
+            givenCells = [];
+            for ( var i = 0; i < this.gridSize; ++i ) {
+                for ( var j = 0; j < this.gridSize; ++j ) {
+                    givenCells.push( { row: i, col: j } );
+                }
+            }
+            this.rand.shuffle(givenCells);
+
             clearedCells = 0;
-            while ( clearedCells < cellsToClear ) {
-                var val, row, col, sectRow, sectCol, sectIndex,
-                    symVal, symSectIndex;
-                row = this.rand.nextInt( 0, this.gridSize );
-                col = this.rand.nextInt( 0, this.gridSize );
+            while ( clearedCells < cellsToClear && givenCells.length > 0  ) {
+                var val, row, col, cell;
+
+                cell = givenCells.pop();
+                
+                row = cell.row;
+                col = cell.col;
                 
                 // Check if this cell has already been cleared
                 if ( this.$inputCells[row][col].val() !== '' ) {
                     val = this.$inputCells[row][col].val();
-                    sectRow = Math.floor( row / this.sectSize );
-                    sectCol = Math.floor( col / this.sectSize );
-                    sectIndex = ( row % this.sectSize ) * this.sectSize
-                        + ( col % this.sectSize );
 
                     // Clear all the data associated 
                     this.$inputCells[row][col].val( '' );
                     this.setMatrixEntry( '', row, col );
                     
                     ++clearedCells;
-
-                    // Remove the symmetric cell if we're not on the diagonal
-                    if ( row !== col ) {
-                        symVal = this.$inputCells[col][row].val();
-                        symSectIndex = ( col % this.sectSize ) * this.sectSize
-                            + ( row % this.sectSize );
-                        
-                        this.$inputCells[col][row].val( '' );
-                        this.setMatrixEntry( '', col, row );
-
-                        ++clearedCells;
-                    }
 
                     // If this change results in no unique solution,
                     //  undo what we've done
@@ -639,16 +649,10 @@ var Sudoku = function( config ) {
                         this.setMatrixEntry( val, row, col );
 
                         --clearedCells;
-
-                        if ( row !== col ) {
-                            this.$inputCells[col][row].val( symVal );
-                            this.setMatrixEntry( symVal, col, row );
-    
-                            --clearedCells;
-                        }
                     }
                 }
             }
+            console.log( clearedCells );
         },
 
         /**
@@ -656,8 +660,61 @@ var Sudoku = function( config ) {
          * @returns {Boolean} true if there is a unique solution
          */
         hasUniqueSolution: function() {
-            // TODO Implement this function
-            return true;
+            var emptySquares = this.findAllEmptySquares();
+            var solutionsFound = this._hasUniqueSolution( emptySquares );
+            return solutionsFound == 1;
+        },
+
+        /**
+         * Recursive solver that tracks the number of solutions found
+         * and exits if more than one valid solution is found
+         */
+        _hasUniqueSolution: function( emptySquares ) {
+            var next, i, row, col, val, solutionsFound = 0;
+
+            // If there are no more empty squares, the puzzle is solved
+            if ( emptySquares.length === 0 ) {
+                return 1;
+            }
+
+            next = this.findBestEmptySquare( emptySquares );
+
+            // There is a square with no legal numbers so there
+            //  is no solution on this track
+            if ( next === null ) {
+                return 0;
+            }
+
+            row = next.square.row;
+            col = next.square.col;
+
+            // remove this square from the empty squares list
+            emptySquares.splice( emptySquares.indexOf( next.square ), 1 );
+
+            for ( i = 0; i < next.legalValues.length; ++i ) {
+                val = next.legalValues[i];
+
+                // Update the value in the input cell
+                this.$inputCells[row][col].val( val );
+                
+                this.setMatrixEntry( val, row, col );
+
+                // Try to solve the puzzle with the new entry in place
+                solutionsFound += this._hasUniqueSolution( emptySquares );
+                if (solutionsFound > 1) {
+                    // Reset the values of this cell and return the solutions we found on this track
+                    this.$inputCells[row][col].val( '' );
+                    this.setMatrixEntry( '', row, col );
+                    console.log( solutionsFound );
+                    return solutionsFound;
+                }
+            }
+
+            // Reset the values of this cell and return the solutions we found on this track
+            this.$inputCells[row][col].val( '' );
+            this.setMatrixEntry( '', row, col );
+            emptySquares.push( next.square );
+            return solutionsFound;
         },
 
         /**
