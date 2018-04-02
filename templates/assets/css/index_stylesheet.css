@@ -149,7 +149,7 @@ article
 { 
     flex: 70%; /* Set the width of the main content */
     background-color: white; /* White background color */
-    padding: 500px; /* Some padding */
+    padding: 20px; /* Some padding */
 }
 
 .footer 
