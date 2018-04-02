@@ -63,3 +63,17 @@ Timer.prototype.resetTime = function(){
 	this.on = false;
 	this.setTime();
 };
+
+/**
+ * Gets the number of seconds that have passed
+ */
+Timer.prototype.getTime = function(){
+	return this.totalSeconds;
+}
+
+/**
+ * Check if the timer is on
+ */
+Timer.prototype.isOn = function(){
+	return this.on;
+}
