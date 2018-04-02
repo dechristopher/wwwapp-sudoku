@@ -135,7 +135,7 @@ var Sudoku = function( config ) {
             validate: function() {
                 var isComplete = _game.validatePuzzle();
 				if(isComplete == true){
-					timer.stop();
+					_timer.stop();
 				}
                 return isComplete;
             },
