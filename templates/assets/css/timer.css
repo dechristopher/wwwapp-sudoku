@@ -1,0 +1,33 @@
+#timer-container{
+	margin: auto;
+	padding: 12px;
+	text-align: center;
+	font-size: 25px;
+}
+
+.timer-num{
+	font-size: 25px;
+	padding: 5px;
+	border: 5px solid;
+	border-radius: 8px;
+}
+
+#hours{
+	border-color: #4CAF50;
+	background-color: #4CAF50;
+}
+
+#minutes{
+	border-color: #FF590C;
+	background-color: #FF590C;
+}
+
+#seconds{
+	border-color: #34C9C2;
+	background-color: #34C9C2;
+}
+
+.timer-label{
+	font-size: 12px;
+	padding: 5px;
+}

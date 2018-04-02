@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="css/login_stylesheet.css">
 	<link rel="stylesheet" href="css/psw_reset.css">
 	<link rel="stylesheet" href="css/sudoku.css">
+	<link rel="stylesheet" href="css/timer.css">
 	<script src="js/jquery.js"></script>
 	<script src="js/jquery-cookie.js"></script>
 	<script src="js/timer.js"></script>
@@ -132,8 +133,14 @@
 		<section class="main">
 			<a href="#"></a>
 			<div id="game-container"></div>
-			<div id="timerDisplay">
-				<span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span>
+			<div id = "timer-container">
+				<span id = "hours" class = "timer-num">00</span>
+				<span id = "minutes" class = "timer-num">00</span>
+				<span id = "seconds" class = "timer-num">00</span></br/>
+		
+				<span id = "hours-label" class = "timer-label">Hours</span>
+				<span id = "minutes-label" class = "timer-label">Minutes</span>
+				<span id = "seconds-label" class = "timer-label">Seconds</span>
 			</div>
 			<div id="controls" class="sudoku-controls">
 					<button id="solve">Solve</button>
