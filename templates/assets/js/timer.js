@@ -15,7 +15,7 @@ Timer.prototype.setTime = function(){
 		
 		//update timer display
 		document.getElementById("seconds").innerHTML = pad(this.totalSeconds % 60);
-		document.getElementById("minutes").innerHTML = pad(parseInt(this.totalSeconds / 60 ));
+		document.getElementById("minutes").innerHTML = pad(parseInt(this.totalSeconds / 60 ) % 60);
 		document.getElementById("hours").innerHTML = pad(parseInt(this.totalSeconds / 3600));
 		
 		//adds zeros for better display of time
@@ -65,15 +65,26 @@ Timer.prototype.resetTime = function(){
 };
 
 /**
+ * Toggles timer's state
+**/
+Timer.prototype.toggle = function(){
+	if(this.on == true){
+		timer.stop()
+	} else {
+		timer.start();
+	}
+};
+
+/**
  * Gets the number of seconds that have passed
  */
 Timer.prototype.getTime = function(){
 	return this.totalSeconds;
-}
+};
 
 /**
  * Check if the timer is on
  */
 Timer.prototype.isOn = function(){
 	return this.on;
-}
+};
