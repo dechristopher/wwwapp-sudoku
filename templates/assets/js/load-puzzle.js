@@ -14,8 +14,10 @@ $( document ).ready( function() {
             var today = new Date();
             today.setHours( 0, 0, 0, 0 );
             config.type = "Normal";
-            confi.difficulty = "Normal";
+            config.difficulty = "Normal";
             config.seed = today.getTime();
+        } else {
+            config.type = cookieType;
         }
     } else {
         var tomorrow = new Date();
