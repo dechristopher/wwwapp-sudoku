@@ -55,11 +55,11 @@ Random.prototype.shuffle = function ( array ) {
  * Constructor for a Sudoku object.
  * @param {Object} config configuration data for the Sudoku puzzle
  */
-function Sudoku( config ) {
+var Sudoku = function( config ) {
     var $table;
     var _game;
-    var timer; // TODO Create a timer object
-    var counter = 0;
+    var _timer;
+    var _config;
     
     /**
      * Default configuration information
@@ -74,8 +74,8 @@ function Sudoku( config ) {
         // If = 0, a random seed is generated when the puzzle is created
         seed: 0,
         // Specifies the difficulty of this puzzle
-        // options are "easy", "medium", "hard"
-        difficulty: "easy"
+        // options are "Easy", "Medium", "Hard"
+        difficulty: "Easy"
     }
 
     /** 
@@ -84,12 +84,13 @@ function Sudoku( config ) {
      * @returns {Object} public methods
     */
     var init = function( config ) {
-        var conf = $.extend( {}, defaultConfig, config );
-        _game = new Game( conf );
+        _config = $.extend( {}, defaultConfig, config );
+        _game = new Game( _config );
         if ( !_game ) {
             console.log( "Game did not initialize properly, aborting..." );
             return "Error! Sudoku could not initialize.";
         }
+        _timer = new Timer();
 
         $table = _game.buildTable();
 
@@ -108,7 +109,14 @@ function Sudoku( config ) {
              * @returns {Object} timer
              */
             getTimer: function() {
-                return timer;
+                return _timer;
+            },
+
+            /**
+             * Return the config object for the sudoku
+             */
+            getConfig: function() {
+                return _config;
             },
 
             /**
@@ -134,6 +142,8 @@ function Sudoku( config ) {
              */
             create: function() {
                 _game.createPuzzle();
+                _timer.resetTime();
+                _timer.start();
             },
 
             /**
@@ -148,7 +158,11 @@ function Sudoku( config ) {
              * Hides the puzzle while the timer is inactive
              */
             pause: function() {
-                // TODO Toggle the timer being active
+                if (_timer.isOn()) {
+                    _timer.stop();
+                } else {
+                    _timer.start();
+                }
                 // TODO Toggle the visibility of the puzzle
             }
         };
@@ -801,4 +815,4 @@ function Sudoku( config ) {
 
     return init( config );
 
-};
+}
