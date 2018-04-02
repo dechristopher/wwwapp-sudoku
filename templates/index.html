@@ -11,6 +11,12 @@
 	<link rel="stylesheet" href="css/register_stylesheet.css">
 	<link rel="stylesheet" href="css/login_stylesheet.css">
 	<link rel="stylesheet" href="css/psw_reset.css">
+	<link rel="stylesheet" href="css/sudoku.css">
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery-cookie.js"></script>
+	<script src="js/timer.js"></script>
+	<script src="js/sudoku.js"></script>
+	<script src="js/load-puzzle.js"></script>
 </head>
 
 <body>
@@ -22,9 +28,9 @@
 	</div>
 
 	<div class="navbar">
-		<a href="learn_sudoku.html" class="left active">Home</a>
-		<a href="learn_sudoku.html" class="left">Learn Sudoku</a>
-		<a href="leaderboard.html" class="left">Leaderboard</a>
+		<a href="/" class="left active">Home</a>
+		<a href="/learn" class="left">Learn Sudoku</a>
+		<a href="/leaderboard" class="left">Leaderboard</a>
 		<a href="#" class="left">Daily Puzzle</a>
 		<div class="dropdown">
 			<button class="dropbtn">Difficulty</button>
@@ -123,7 +129,19 @@
 	</div>
 
 	<div class="row">
-		<section class="main"><a href="#"></a></section>
+		<section class="main">
+			<a href="#"></a>
+			<div id="game-container"></div>
+			<div id="timerDisplay">
+				<span id="hours"></span>:<span id="minutes"></span>:<span id="seconds"></span>
+			</div>
+			<div id="controls" class="sudoku-controls">
+					<button id="solve">Solve</button>
+					<button id="validate">Validate Board</button>
+					<button id="pause">Pause</button>
+					<button id="reset">Reset</button>
+				</div>
+		</section>
 	</div>
 </body>
 
