@@ -652,7 +652,6 @@ var Sudoku = function( config ) {
                     }
                 }
             }
-            console.log( clearedCells );
         },
 
         /**
@@ -705,7 +704,6 @@ var Sudoku = function( config ) {
                     // Reset the values of this cell and return the solutions we found on this track
                     this.$inputCells[row][col].val( '' );
                     this.setMatrixEntry( '', row, col );
-                    console.log( solutionsFound );
                     return solutionsFound;
                 }
             }
