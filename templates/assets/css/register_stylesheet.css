@@ -27,6 +27,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
     border: none;
     cursor: pointer;
     width: 100%;
+	display: block;
 }
 
 .btn2:hover 
@@ -72,8 +73,9 @@ body {font-family: Arial, Helvetica, sans-serif;}
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: #474e5d;
-    padding-top: 50px;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
 }
 
 /* Modal Content/Box */

@@ -84,32 +84,16 @@ body
     color: black; /* Black text color */
 }
 
-.overlayed 
-{
-   position: absolute;
-   top: 0px;
-   left: 0px;
-}
-
 .right 
 {
    float: right;
 }
 
-.linkbutton 
-{
-   margin-top: 7em;
-   background-color: #ff8800;
-   display: block;
-   padding: 20px 20px;
-   color: white;
-   text-decoration: none; 
-   font-size: 0.85em;   
-}
-
 .row
 {	
 	background-color: #C7C6C6;
+	padding-top: 100px;
+	padding-bottom: 100px;
 }
 
 .column
@@ -119,7 +103,6 @@ body
 	width: 30%;
 	border-right: 1% solid #ff8800;
 	float: left;
-
 }
 
 #img_column

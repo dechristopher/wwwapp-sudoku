@@ -59,7 +59,7 @@ article
     display: block; /* Change the display to block, for responsive reasons (see below) */
     color: white; /* White text color */
     text-align: center; /* Center the text */
-    padding: 6px 20px; /* Add some padding */
+    padding: 10px 20px; /* Add some padding */
     text-decoration: none; /* Remove underline */
 }
 
@@ -67,12 +67,15 @@ article
 .navbar a.right 
 {
     float: right; /* Float a link to the right */
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .navbar a.left
 {
 	float: left;
-	margin-top: 10px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 /* Change color on hover/mouse-over */
@@ -85,8 +88,8 @@ article
 /* Drop-down class for Difficulty option on navigation bar */
 .dropdown 
 {
-    float: right;
-    overflow: auto;
+    float: left;
+    overflow: hidden;
 }
 
 .dropdown .dropbtn 
