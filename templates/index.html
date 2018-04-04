@@ -41,12 +41,22 @@
 				<a id="new-hard" href="#">Hard</a>
 				</div>
 		</div>
-		<a href="#" class="right">
-			<button class="btn2" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</button>
-		</a>
-		<a href="#" class="right">
-			<button class="btn1" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
-		</a>
+
+		<span class="loggedout">
+			<a href="#" class="right">
+				<button class="btn2" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</button>
+			</a>
+			<a href="#" class="right">
+				<button class="btn1" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+			</a>
+		</span>
+
+		<span class="loggedin right">
+			Welcome, <span id="username"></span>.
+			<a href="/logout" class="right">
+				<button class="btn2" id="logout">Logout</button>
+			</a>
+		</span>
 	</div>
 
 	<div id="id01" class="modal">

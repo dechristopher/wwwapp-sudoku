@@ -7,6 +7,8 @@ $( document ).ready( function() {
     var config = {};
     var cookieDifficulty = $.cookie( "difficulty" );
     var cookieType = $.cookie( "type" );
+    var cookieUID = $.cookie( "uid" );
+    var cookieUsername = $.cookie( "username" );
 
     if (cookieDifficulty) {
         config.difficulty = cookieDifficulty;
@@ -30,6 +32,15 @@ $( document ).ready( function() {
         config.seed = today.getTime();
     }
 
+    if (cookieUsername) {
+        $( ".loggedout" ).css( "display", "none" );
+        $( ".loggedin" ).css( "display", "inline" );
+        $( "#username" ).text( cookieUsername );
+    } else {
+        $( ".loggedout" ).css( "display", "inline" );
+        $( ".loggedin" ).css( "display", "none" );
+    }
+
     var game = new Sudoku( config );
     game.create();
 
@@ -40,11 +51,12 @@ $( document ).ready( function() {
     } );
     $( "#validate" ).click( function() {
         var complete = game.validate();
-        if (complete) {
+        if ( complete && $.cookie( "uid" ) ) {
             $.ajax({
                 url: "/solve",
                 type: "POST",
                 data: {
+                    userID: $.cookie( "uid" ),
                     time: game.getTimer().getTime(),
                     difficulty: game.getConfig().difficulty,
                     seed: game.getConfig().seed
