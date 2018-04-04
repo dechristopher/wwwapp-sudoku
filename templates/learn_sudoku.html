@@ -37,7 +37,7 @@
 		<h1>Classic Sudoku</h1>
 		<div class="entry">
 			<figure>
-				<img src="assets/images/sudoku_grid.png" width="200" height="200"alt="" />
+				<img src="assets/images/sudoku_grid.png" width="200" height="200" alt="" />
 				<figcaption>Classic Sudoku</figcaption>
 			</figure>
 				
@@ -47,9 +47,36 @@
 		    The object is to fill all empty squares so that the numbers 1 to 9 appear exactly 
 		    once in each row, column and 3x3 box. </p>
 			<div class="right">
-				<button id="myBtn" class="linkbutton">Read More</button>
+				<button id="classicBtn" onclick="document.getElementbyId('classicBtn')" class="linkbutton">Read More</button>
+				
+				<div id="classicModal" class="modal">
+
+				  <div class="modal-content">
+						<div class="modal-header">
+							<span class="close1">&times;</span>
+							<h2>Classic Sudoku Techniques</h2>
+						</div>
+						<div class="modal-body">
+							<div class="column">
+								<h2> 1. Scanning in one direction: </h2>
+									<p> In our first example we will focus on box 2, which like any other box in Sudoku must contain 9. Looking at box 1 and box 3 we can see there are already 9s in row 2 and in row 3, which excludes the two bottom rows of box 2 from having 9. This leaves square e1 as the only possible place into which 9 can fit in.</p>
+								<img src = "assets/images/classic_sudoku_demo1.gif" alt = "">
+								<img src = "assets/images/classic_sudoku_demo2.gif" alt = "">
+							</div>
+				
+							<div class="column">
+								<h2> 2. Scanning in two directions: </h2>
+									<p> The same technique can be expanded by using information from perpendicular rows and columns. Let’s see where we can place 1 in box 3. In this example, row 1 and row 2 contain 1s, which leaves two empty squares in the bottom of box 3. However, square g4 also contains 1, so no additional 1 is allowed in column g. This means that square i3 is the only place left for 1.</p>
+								<img src = "assets/images/classic_sudoku_demo3.gif" alt = "">
+								<img src = "assets/images/classic_sudoku_demo4.gif" alt = "">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<h3>All right, lets do some puzzles!</h3>
+						</div>
+				  </div>
+				</div>
 			</div>
-		</div>
 		</div>
 	</article>
 
@@ -63,11 +90,40 @@
 				
 		<div>
 		<h2>Rules</h2>
-		<p> Each puzzle consists of a 9x9 grid containing given clues in various places.
+		<p> Each puzzle consists of a 9x9 grid containing given clues in 	   various places.
 		    The object is to fill all empty squares so that the numbers 1 to 9 appear exactly 
 		    once in each row, column, diagonal and 3x3 box. </p>
 			<div class="right">
-				<button id="myBtn" class="linkbutton">Read More</button>
+				<button id="diagonalBtn" onclick="document.getElementbyId('diagonalBtn')" class="linkbutton">Read More</button>
+				
+					<div id="diagonalModal" class="modal">
+
+					  <div class="modal-content">
+							<div class="modal-header">
+								<span class="close2">&times;</span>
+								<h2>Diagonal Sudoku Techniques</h2>
+							</div>
+							<div class="modal-body">
+							<div class="column">
+								<h2> 1. Scanning in one direction: </h2>
+									<p> In our first example we will focus on box 2, which like any other box in Sudoku must contain 9. Looking at box 1 and box 3 we can see there are already 9s in row 2 and in row 3, which excludes the two bottom rows of box 2 from having 9. This leaves square e1 as the only possible place into which 9 can fit in.</p>
+								<img src = "assets/images/classic_sudoku_demo1.gif" alt = "">
+								<img src = "assets/images/classic_sudoku_demo2.gif" alt = "">
+							</div>
+				
+							<div class="column">
+								<h2> 2. Scanning in two directions: </h2>
+									<p> The same technique can be expanded by using information from perpendicular rows and columns. Let’s see where we can place 1 in box 3. In this example, row 1 and row 2 contain 1s, which leaves two empty squares in the bottom of box 3. However, square g4 also contains 1, so no additional 1 is allowed in column g. This means that square i3 is the only place left for 1.</p>
+								<img src = "assets/images/classic_sudoku_demo3.gif" alt = "">
+								<img src = "assets/images/classic_sudoku_demo4.gif" alt = "">
+							</div>
+							</div>
+							<div class="modal-footer">
+								<h3>All right, lets do some puzzles!</h3>
+							</div>
+					  </div>
+					</div>
+				</div>
 			</div>
 		</div>
 		</div>
@@ -77,7 +133,7 @@
 		<h1>Mega Sudoku</h1>
 		<div class="entry">
 			<figure>
-				<img src="assets/images/mega_sudoku.jpg" width="200" height="200"alt="" />
+				<img src="assets/images/mega_sudoku.jpg" width="200" height="200" alt="" />
 				<figcaption>Mega Sudoku</figcaption>     
 			</figure>
 				
@@ -86,30 +142,41 @@
 		<p> Each puzzle consists of a 12x12 or 16x16 grid containing given clues in various places. 
 			The object is to fill all empty squares so that the numbers 1 to 12 (for 12x12 puzzles) or 1 to 16 (for 16x16 puzzles) appear exactly once in each row, column and box. </p>
 			<div class="right">
-				<button id="myBtn" class="linkbutton">Read More</button>
+				<button id="megaBtn" onclick="document.getElementbyId('megaBtn')" class="linkbutton">Read More</button>
+				
+					<div id="megaModal" class="modal">
+
+					  <div class="modal-content">
+							<div class="modal-header">
+								<span class="close3">&times;</span>
+								<h2>Mega Sudoku Techniques</h2>
+							</div>
+							<div class="modal-body">
+							<div class="column">
+								<h2> 1. Scanning in one direction: </h2>
+									<p> In our first example we will focus on box 2, which like any other box in Sudoku must contain 9. Looking at box 1 and box 3 we can see there are already 9s in row 2 and in row 3, which excludes the two bottom rows of box 2 from having 9. This leaves square e1 as the only possible place into which 9 can fit in.</p>
+								<img src = "assets/images/classic_sudoku_demo1.gif" alt = "">
+								<img src = "assets/images/classic_sudoku_demo2.gif" alt = "">
+							</div>
+				
+							<div class="column">
+								<h2> 2. Scanning in two directions: </h2>
+									<p> The same technique can be expanded by using information from perpendicular rows and columns. Let’s see where we can place 1 in box 3. In this example, row 1 and row 2 contain 1s, which leaves two empty squares in the bottom of box 3. However, square g4 also contains 1, so no additional 1 is allowed in column g. This means that square i3 is the only place left for 1.</p>
+								<img src = "assets/images/classic_sudoku_demo3.gif" alt = "">
+								<img src = "assets/images/classic_sudoku_demo4.gif" alt = "">
+							</div>
+							</div>
+							<div class="modal-footer">
+								<h3>All right, lets do some puzzles!</h3>
+							</div>
+					  </div>
+					</div>
+				</div>
 			</div>
 		</div>
 		</div>
 	</article> 
 	
-
-<!-- The Modal -->
-	<div id="myModal" class="modal">
-
-	  <!-- Modal content -->
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <span class="close">&times;</span>
-		  <h2>Modal Header</h2>
-		</div>
-		<div class="modal-body">
-		  <p>Some text in the Modal Body</p>
-		  <p>Some other text...</p>
-		</div>
-		<div class="modal-footer">
-		  <h3>Modal Footer</h3>
-		</div>
-	 </div>
 
 </div>
 </body>
