@@ -154,9 +154,9 @@ figcaption
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     -webkit-animation-name: fadeIn; /* Fade in the background */
-    -webkit-animation-duration: 0.4s;
+    -webkit-animation-duration: 1.0s;
     animation-name: fadeIn;
-    animation-duration: 0.4s
+    animation-duration: 1.0s
 }
 
 /* Modal Content */
@@ -167,13 +167,13 @@ figcaption
     background-color: #fefefe;
     width: 100%;
     -webkit-animation-name: slideIn;
-    -webkit-animation-duration: 0.4s;
+    -webkit-animation-duration: 1.0s;
     animation-name: slideIn;
-    animation-duration: 0.4s
+    animation-duration: 1.0s
 }
 
 /* The Close Button */
-.close 
+.close1, .close2, .close3
 {
     color: white;
     float: right;
@@ -181,8 +181,8 @@ figcaption
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus 
+.close1:hover, .close2:hover, .close3:hover,
+.close1:focus, .close2:focus, .close3:focus 
 {
     color: #000;
     text-decoration: none;
@@ -191,16 +191,29 @@ figcaption
 
 .modal-header 
 {
-    padding: 2px 16px;
+    padding: 5px 16px;
     background-color: #5cb85c;
     color: white;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body 
+{
+	padding: 200px 16px;
+	margin-top: 5px;
+	margin-bottom: 300px;
+}
+
+.column
+{	
+	padding-left: 12em;
+	width: 30%;
+	border-right: 1% solid #ff8800;
+	float: left;
+}
 
 .modal-footer 
 {
-    padding: 2px 16px;
+    padding: 5px 16px;
     background-color: #5cb85c;
     color: white;
 }
@@ -208,26 +221,26 @@ figcaption
 /* Add Animation */
 @-webkit-keyframes slideIn 
 {
-    from {bottom: -300px; opacity: 0} 
-    to {bottom: 0; opacity: 1}
+    from {right: -100px; opacity: 0} 
+    to {right: 0; opacity: 1}
 }
 
 @keyframes slideIn 
 {
-    from {bottom: -300px; opacity: 0}
-    to {bottom: 0; opacity: 1}
+    from {right: -100px; opacity: 0}
+    to {right: 0; opacity: 1}
 }
 
 @-webkit-keyframes fadeIn 
 {
-    from {opacity: 0} 
-    to {opacity: 1}
+    from {right: -100px; opacity: 0} 
+    to {right: 0; opacity: 1}
 }
 
 @keyframes fadeIn 
 {
-    from {opacity: 0} 
-    to {opacity: 1}
+    from {right: -100px; opacity: 1} 
+    to {right: 0; opacity: 1}
 }
 
 .footer 
