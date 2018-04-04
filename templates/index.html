@@ -6,41 +6,33 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="cleartype" content="on">
-	<link rel="stylesheet" href="css/reset.css">
-	<link rel="stylesheet" href="css/index_stylesheet.css">
-	<link rel="stylesheet" href="css/register_stylesheet.css">
-	<link rel="stylesheet" href="css/login_stylesheet.css">
-	<link rel="stylesheet" href="css/psw_reset.css">
-	<link rel="stylesheet" href="css/sudoku.css">
-	<link rel="stylesheet" href="css/timer.css">
-	<script src="js/jquery.js"></script>
-	<script src="js/jquery-cookie.js"></script>
-	<script src="js/timer.js"></script>
-	<script src="js/sudoku.js"></script>
-	<script src="js/load-puzzle.js"></script>
+	<link rel="stylesheet" href="assets/css/reset.css">
+	<link rel="stylesheet" href="assets/css/index_stylesheet.css">
+	<link rel="stylesheet" href="assets/css/register_stylesheet.css">
+	<link rel="stylesheet" href="assets/css/login_stylesheet.css">
+	<link rel="stylesheet" href="assets/css/psw_reset.css">
+	<link rel="stylesheet" href="assets/css/sudoku.css">
+	<link rel="stylesheet" href="assets/css/timer.css">
+	<script src="assets/js/jquery.js"></script>
+	<script src="assets/js/jquery-cookie.js"></script>
+	<script src="assets/js/timer.js"></script>
+	<script src="assets/js/sudoku.js"></script>
+	<script src="assets/js/load-puzzle.js"></script>
 </head>
 
 <body>
 	<div class="header">
 		<figure>
-			<a href="index.html" title="Play Free Sudoku" rel="home">
-			<img src="images/Sudoku.png" height="100" width="400" alt> </a>
+			<a href="index.html" title="Play Free Sudoku" rel="home"> 
+			<img src="assets/images/Sudoku.png" height="100" width="400" alt> </a> 
 		</figure>
 	</div>
-
+	
 	<div class="navbar">
-		<a href="/" class="left active">Home</a>
-		<a href="/learn" class="left">Learn Sudoku</a>
-		<a href="/leaderboard" class="left">Leaderboard</a>
-		<a id="daily" href="#" class="left">Daily Puzzle</a>
-		<div class="dropdown">
-			<button class="dropbtn">Difficulty</button>
-				<div class="dropdown-content">
-				<a id="new-easy" href="#">Easy</a>
-				<a id="new-medium" href="#">Medium</a>
-				<a id="new-hard" href="#">Hard</a>
-				</div>
-		</div>
+		<a href="index.html" class="left active">Home</a>
+		<a href="learn_sudoku.html" class="left">Learn Sudoku</a>
+		<a href="leaderboard.html" class="left">Leaderboard</a>
+		<a href="daily_puzzle.html" class="left">Daily Puzzle</a>
 		<a href="#" class="right">
 			<button class="btn2" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Register</button>
 		</a>
@@ -48,12 +40,12 @@
 			<button class="btn1" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
 		</a>
 	</div>
-
+	
 	<div id="id01" class="modal">
 		<form class="modal-content animate" method="POST" action="/login">
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-				<img src="images/avatar.png" alt="Avatar" class="avatar">
+				<img src="assets/images/avatar.png" alt="Avatar" class="avatar">
 			</div>
 
 			<div class="container">
@@ -73,19 +65,21 @@
 			</div>
 		</form>
 	</div>
-
+	
 	<div id="id02" class="modal2">
 		<form class="modal2-content" method="POST" action="/register">
-
+			
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id02').style.display='none'" class="close2" title="Close Modal">&times;</span>
 			</div>
-
+			
 			<div class="container2">
-
+				
 				<h2>Sign Up</h2>
 				<p>Please fill in this form to create an account:</p>
 					<hr>
+				<label for="username"><b>Username:</b></label>
+					<input class="input2" type="text" placeholder="Enter Username" name="username" required>
 				<label for="email"><b>Email:</b></label>
 					<input class="input2" type="text" placeholder="Enter Email" name="email" required>
 				<label for="psw"><b>Password:</b></label>
@@ -105,14 +99,14 @@
 			</div>
 		</form>
 	</div>
-
+	
 	<div id="id03" class="modal3">
 		<form class="modal3-content" method="POST" action="/register">
-
+			
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id03').style.display='none'" class="close3" title="Close Modal">&times;</span>
 			</div>
-
+			
 			<div class="container3">
 				<h2>Please enter your email to receive your password.</h2>
 					<hr>
@@ -128,11 +122,21 @@
 			</div>
 		</form>
 	</div>
-
+	
 	<div class="row">
 		<section class="main">
 			<a href="#"></a>
-			<div id="game-container"></div>
+			<div style="overflow: auto;">
+			<div id="game-container" style="float:left"></div>
+			<div class="dropdown" style="float:none;display:inline">
+				<button class="dropbtn" >Difficulty</button>
+					<div class="dropdown-content">
+						<a href="#">Easy</a>
+						<a href="#">Medium</a>
+						<a href="#">Hard</a>
+					</div>
+				</div>
+			</div>
 			<div id = "timer-container">
 				<span id = "hours" class = "timer-num">00</span>
 				<span id = "minutes" class = "timer-num">00</span>
@@ -155,9 +159,9 @@
 <footer>
 	<div class="footer">
 		<nav>
-			<a href="#">About Us</a>
+			<a href="about_us.html">About Us</a>
 		</nav>
-		<p> Copyright © 2018 Wentworth Institute of Technology </p>
+		<p> Copyright © 2018 SudoCrew </p>
 	</div>
 </footer>
 
