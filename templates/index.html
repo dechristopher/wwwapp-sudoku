@@ -23,24 +23,16 @@
 <body>
 	<div class="header">
 		<figure>
-			<a href="index.html" title="Play Free Sudoku" rel="home">
-			<img src="images/Sudoku.png" height="100" width="400" alt> </a>
+			<a href="index.html" title="Play Free Sudoku" rel="home"> 
+			<img src="images/Sudoku.png" height="100" width="400" alt> </a> 
 		</figure>
 	</div>
-
+	
 	<div class="navbar">
 		<a href="/" class="left active">Home</a>
 		<a href="/learn" class="left">Learn Sudoku</a>
 		<a href="/leaderboard" class="left">Leaderboard</a>
 		<a id="daily" href="#" class="left">Daily Puzzle</a>
-		<div class="dropdown">
-			<button class="dropbtn">Difficulty</button>
-				<div class="dropdown-content">
-				<a id="new-easy" href="#">Easy</a>
-				<a id="new-medium" href="#">Medium</a>
-				<a id="new-hard" href="#">Hard</a>
-				</div>
-		</div>
 
 		<span class="loggedout">
 			<a href="#" class="right">
@@ -51,14 +43,14 @@
 			</a>
 		</span>
 
-		<span class="loggedin right">
-			Welcome, <span id="username"></span>.
+		<span class="loggedin">
+			<span class="welcome">Welcome, <span id="username"></span>.</span>
 			<a href="/logout" class="right">
 				<button class="btn2" id="logout">Logout</button>
 			</a>
 		</span>
 	</div>
-
+	
 	<div id="id01" class="modal">
 		<form class="modal-content animate" method="POST" action="/login">
 			<div class="imgcontainer">
@@ -83,19 +75,21 @@
 			</div>
 		</form>
 	</div>
-
+	
 	<div id="id02" class="modal2">
 		<form class="modal2-content" method="POST" action="/register">
-
+			
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id02').style.display='none'" class="close2" title="Close Modal">&times;</span>
 			</div>
-
+			
 			<div class="container2">
-
+				
 				<h2>Sign Up</h2>
 				<p>Please fill in this form to create an account:</p>
 					<hr>
+				<label for="username"><b>Username:</b></label>
+					<input class="input2" type="text" placeholder="Enter Username" name="username" required>
 				<label for="email"><b>Email:</b></label>
 					<input class="input2" type="text" placeholder="Enter Email" name="email" required>
 				<label for="psw"><b>Password:</b></label>
@@ -115,14 +109,14 @@
 			</div>
 		</form>
 	</div>
-
+	
 	<div id="id03" class="modal3">
 		<form class="modal3-content" method="POST" action="/register">
-
+			
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id03').style.display='none'" class="close3" title="Close Modal">&times;</span>
 			</div>
-
+			
 			<div class="container3">
 				<h2>Please enter your email to receive your password.</h2>
 					<hr>
@@ -138,36 +132,43 @@
 			</div>
 		</form>
 	</div>
-
+	
 	<div class="row">
-		<section class="main">
-			<a href="#"></a>
-			<div id="game-container"></div>
-			<div id = "timer-container">
-				<span id = "hours" class = "timer-num">00</span>
-				<span id = "minutes" class = "timer-num">00</span>
-				<span id = "seconds" class = "timer-num">00</span></br/>
-		
-				<span id = "hours-label" class = "timer-label">Hours</span>
-				<span id = "minutes-label" class = "timer-label">Minutes</span>
-				<span id = "seconds-label" class = "timer-label">Seconds</span>
+		<div id="game-container"></div>
+		<div class="dropdown">
+			<button class="dropbtn">Difficulty</button>
+			<div class="dropdown-content">
+				<a id="new-easy" href="#">Easy</a>
+				<a id="new-medium" href="#">Medium</a>
+				<a id="new-hard" href="#">Hard</a>
 			</div>
-			<div id="controls" class="sudoku-controls">
-					<button id="solve">Solve</button>
-					<button id="validate">Validate Board</button>
-					<button id="pause">Pause</button>
-					<button id="reset">Reset</button>
-				</div>
-		</section>
+		</div>
 	</div>
+
+	<div id = "timer-container">
+		<span id = "hours" class = "timer-num">00</span>
+		<span id = "minutes" class = "timer-num">00</span>
+		<span id = "seconds" class = "timer-num">00</span></br/>
+
+		<span id = "hours-label" class = "timer-label">Hours</span>
+		<span id = "minutes-label" class = "timer-label">Minutes</span>
+		<span id = "seconds-label" class = "timer-label">Seconds</span>
+	</div>
+	<div id="controls" class="sudoku-controls">
+		<button id="solve">Solve</button>
+		<button id="validate">Validate Board</button>
+		<button id="pause">Pause</button>
+		<button id="reset">Reset</button>
+	</div>
+
 </body>
 
 <footer>
 	<div class="footer">
 		<nav>
-			<a href="#">About Us</a>
+			<a href="about_us.html">About Us</a>
 		</nav>
-		<p> Copyright © 2018 Wentworth Institute of Technology </p>
+		<p> Copyright © 2018 SudoCrew </p>
 	</div>
 </footer>
 

@@ -1,41 +1,47 @@
-body {
+body 
+{
 	margin: 0;
 	padding: 0;
 }
 
-button, h1 {
+button, h1 
+{
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
 }
 
-.sudoku-controls {
+.sudoku-controls 
+{
 	width: 50%;
 	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.sudoku-controls button {
+.sudoku-controls button 
+{
 	font-size: 24px;
 	margin: 10px;
 	padding: 5px;
 }
 
-.sudoku-container {
+.sudoku-container 
+{
 	border: 2px solid black;
-	margin-left: auto;
 	margin-right: auto;
 	border-collapse: collapse;
 }
 
-.sudoku-container td {
+.sudoku-container td 
+{
 	margin: 0;
 	padding: 0;
 	border: 1px solid #444;
 }
 
-.sudoku-container input {
+.sudoku-container input 
+{
 	width: 40px;
 	height: 40px;
 	text-align: center;
@@ -45,35 +51,44 @@ button, h1 {
 	font-size: 20px;
 	color: #02d;
 }
-.sudoku-container input:read-only {
+
+.sudoku-container input:read-only 
+{
 	font-size: 24px;
 	color: #000;
 }
 
-.sudoku-container .sudoku-input-error {
+.sudoku-container .sudoku-input-error 
+{
 	background: #ffc9d7;
 }
 
-.sudoku-container.valid-matrix {
+.sudoku-container.valid-matrix 
+{
 	border: 5px solid #7edb37;
 }
 
-.sudoku-container .sudoku-section-top {
+.sudoku-container .sudoku-section-top 
+{
 	border-top: 2px solid black;
 }
 
-.sudoku-container .sudoku-section-left {
+.sudoku-container .sudoku-section-left 
+{
 	border-left: 2px solid black;
 }
 
-.sudoku-diagonal {
+.sudoku-diagonal 
+{
 	background: #ccc;
 }
 
-/* .sudoku-section-one {
+/* .sudoku-section-one 
+{
 	background: #ddd;
 }
 
-.sudoku-section-two {
+.sudoku-section-two 
+{
 	background: #ccc;
 } */

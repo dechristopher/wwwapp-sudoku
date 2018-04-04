@@ -59,6 +59,7 @@ $( document ).ready( function() {
                     userID: $.cookie( "uid" ),
                     time: game.getTimer().getTime(),
                     difficulty: game.getConfig().difficulty,
+                    type: game.getConfig().type,
                     seed: game.getConfig().seed
                 },
                 success: function() {

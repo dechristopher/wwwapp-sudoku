@@ -61,7 +61,7 @@ figcaption
 
 .header .figure_logo 
 {
-    padding: 20px; /* some padding */
+    padding: 25px; /* some padding */
     text-align: center; /* center the text */
     background: #34C9C2; /* Aqua background */
 }
@@ -138,6 +138,109 @@ figcaption
    color: white;
    text-decoration: none; 
    font-size: 0.85em;   
+}
+
+/* The Modal (background) */
+.modal 
+{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    -webkit-animation-name: fadeIn; /* Fade in the background */
+    -webkit-animation-duration: 1.0s;
+    animation-name: fadeIn;
+    animation-duration: 1.0s
+}
+
+/* Modal Content */
+.modal-content 
+{
+    position: fixed;
+    bottom: 0;
+    background-color: #fefefe;
+    width: 100%;
+    -webkit-animation-name: slideIn;
+    -webkit-animation-duration: 1.0s;
+    animation-name: slideIn;
+    animation-duration: 1.0s
+}
+
+/* The Close Button */
+.close1, .close2, .close3
+{
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close1:hover, .close2:hover, .close3:hover,
+.close1:focus, .close2:focus, .close3:focus 
+{
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header 
+{
+    padding: 5px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+.modal-body 
+{
+	padding: 200px 16px;
+	margin-top: 5px;
+	margin-bottom: 300px;
+}
+
+.column
+{	
+	padding-left: 12em;
+	width: 30%;
+	border-right: 1% solid #ff8800;
+	float: left;
+}
+
+.modal-footer 
+{
+    padding: 5px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+/* Add Animation */
+@-webkit-keyframes slideIn 
+{
+    from {right: -100px; opacity: 0} 
+    to {right: 0; opacity: 1}
+}
+
+@keyframes slideIn 
+{
+    from {right: -100px; opacity: 0}
+    to {right: 0; opacity: 1}
+}
+
+@-webkit-keyframes fadeIn 
+{
+    from {right: -100px; opacity: 0} 
+    to {right: 0; opacity: 1}
+}
+
+@keyframes fadeIn 
+{
+    from {right: -100px; opacity: 1} 
+    to {right: 0; opacity: 1}
 }
 
 .footer 

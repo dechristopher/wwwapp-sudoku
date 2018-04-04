@@ -59,7 +59,7 @@ article
     display: block; /* Change the display to block, for responsive reasons (see below) */
     color: white; /* White text color */
     text-align: center; /* Center the text */
-    padding: 6px 20px; /* Add some padding */
+    padding: 10px 20px; /* Add some padding */
     text-decoration: none; /* Remove underline */
 }
 
@@ -67,29 +67,15 @@ article
 .navbar a.right 
 {
     float: right; /* Float a link to the right */
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .navbar a.left
 {
 	float: left;
-	margin-top: 10px;
-}
-
-.navbar span.loggedin
-{
-    display: none;
-    color: white;
-    float: right;
-}
-
-.navbar span.welcome
-{
-    line-height: 50px;
-}
-
-.navbar span.loggedout
-{
-    display: none;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 /* Change color on hover/mouse-over */
@@ -99,19 +85,11 @@ article
     color: black; /* Black text color */
 }
 
-#game-container
-{
-    left: 50%;
-    transform: translateX(56px);
-}
-
 /* Drop-down class for Difficulty option on navigation bar */
-.dropdown
+.dropdown 
 {
-    position: relative;
-    display: inline-block;
-    padding: 0px 20px;
-    transform: translateX(56px);
+    float: left;
+    overflow: hidden;
 }
 
 .dropdown .dropbtn 
@@ -135,6 +113,7 @@ article
 
 .dropdown-content a 
 {
+    float: none;
     color: black;
     padding: 12px 16px;
     text-decoration: none;
@@ -162,9 +141,15 @@ article
 .row 
 { 
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Main section which will display the game */
+.main 
+{ 
+    flex: 70%; /* Set the width of the main content */
     background-color: white; /* White background color */
-    padding: 20px; /* Some padding */
+    padding: 100px; /* Some padding */
 }
 
 .footer 
