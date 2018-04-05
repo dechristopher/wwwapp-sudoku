@@ -159,6 +159,7 @@ var Sudoku = function( config ) {
             /**
              * Toggle the timer active state
              * Hides the puzzle while the timer is inactive
+             * @returns {Boolean} True if the game is now paused, false otherwise
              */
             pause: function() {
                 if (_timer.isOn()) {
@@ -166,7 +167,7 @@ var Sudoku = function( config ) {
                 } else {
                     _timer.start();
                 }
-                // TODO Toggle the visibility of the puzzle
+                return !_timer.isOn();
             }
         };
     }
