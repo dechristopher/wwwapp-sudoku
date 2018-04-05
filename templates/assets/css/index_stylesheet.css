@@ -48,6 +48,7 @@ article
 
 .navbar 
 {
+    height: 50px;
     overflow: hidden; /* Hide overflow */
     background-color: #333; /* Dark background color */
 }
@@ -99,7 +100,7 @@ article
     color: black; /* Black text color */
 }
 
-#game-container
+#game-container, #dummy-game-container
 {
     left: 50%;
     transform: translateX(56px);
@@ -165,6 +166,11 @@ article
     justify-content: center;
     background-color: white; /* White background color */
     padding: 20px; /* Some padding */
+}
+
+.hidden
+{
+    display: none;
 }
 
 .footer 
