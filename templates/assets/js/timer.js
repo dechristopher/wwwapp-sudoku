@@ -83,6 +83,27 @@ Timer.prototype.getTime = function(){
 };
 
 /**
+ * Get string representation of the time
+ */
+Timer.prototype.getString = function() {
+	//adds zeros for better display of time
+	function pad(num){
+		var numString = num + "";
+		if(numString.length < 2){
+			//pad with zero for display of time
+			return "0" + numString;
+		} else {
+			//no need for padding
+			return numString;
+		}
+	}
+	
+	return 	pad(parseInt(this.totalSeconds / 3600)) + ":" +
+			pad(parseInt(this.totalSeconds / 60 ) % 60) + ":" +
+			pad(this.totalSeconds % 60);
+}
+
+/**
  * Check if the timer is on
  */
 Timer.prototype.isOn = function(){
