@@ -54,7 +54,7 @@ $( document ).ready( function() {
         var complete = game.validate();
         if ( complete ) {
             $( "#id04" ).attr( "style", "display: block" );
-            $( "#solved-time" ).text( game.getTimer().getString() );
+            $( "#solve-time" ).text( game.getTimer().getString() );
             if ( $.cookie( "uid" ) ) {
                 $.ajax({
                     url: "/solve",
