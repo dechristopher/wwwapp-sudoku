@@ -103,7 +103,7 @@ article
 #game-container, #dummy-game-container
 {
     left: 50%;
-    transform: translateX(56px);
+    transform: translateX(109px);
 }
 
 /* Drop-down class for Difficulty option on navigation bar */
@@ -112,10 +112,19 @@ article
     position: relative;
     display: inline-block;
     padding: 0px 20px;
-    transform: translateX(56px);
+    transform: translateX(109px);
 }
 
-.dropdown .dropbtn 
+.dropdown-type
+{
+    position: relative;
+    display: inline-block;
+    padding: 0px 20px;
+    /*transform: translate(-68px, 212px);*/
+    transform: translate(-23px, 212px);
+}
+
+.dropdown .dropbtn, .dropdown-type .dropbtn
 {
     background-color: #4058FF;
     color: white;
@@ -148,7 +157,7 @@ article
     background-color: #ddd;
 }
 
-.dropdown:hover .dropdown-content 
+.dropdown:hover .dropdown-content, .dropdown-type:hover .dropdown-content 
 {
     display: block;
 }
