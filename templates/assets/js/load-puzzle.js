@@ -117,6 +117,20 @@ $( document ).ready( function() {
         window.location = "/";
     });
 
+    // Type drop-down callbacks
+    $( "#new-normal" ).click( function() {
+        $.cookie( "type", "Normal" );
+        window.location = "/";
+    });
+    $( "#new-diagonal" ).click( function() {
+        $.cookie( "type", "Diagonal" );
+        window.location = "/";
+    });
+    $( "#new-big" ).click( function() {
+        $.cookie( "type", "Big" );
+        window.location = "/";
+    });
+
     // Once everything is set up, hide the dummy board and display the real board
     $( "#game-container" ).toggleClass( "hidden" );
     $( "#dummy-game-container" ).toggleClass( "hidden" );
