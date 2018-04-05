@@ -78,7 +78,10 @@ $( document ).ready( function() {
         } 
     });
     $( "#pause" ).click( function() {
-        game.pause();
+        var paused = game.pause();
+        $( "#game-container" ).toggleClass( "hidden" );
+        $( "#dummy-game-container" ).toggleClass( "hidden" );
+        this.textContent = paused ? "Unpause" : "Pause";
     });
     $( "#reset" ).click( function() {
         game.reset();
@@ -113,4 +116,43 @@ $( document ).ready( function() {
         }
         window.location = "/";
     });
+
+    // Once everything is set up, hide the dummy board and display the real board
+    $( "#game-container" ).toggleClass( "hidden" );
+    $( "#dummy-game-container" ).toggleClass( "hidden" );
 });
+
+buildDummyTable = function () {
+    var i, j, gridSize;
+    var $table = $( "<table>" ).addClass( "sudoku-container" );
+    var $tr;
+    var $td;
+
+    if ( $.cookie( "type" ) == "Big" ) {
+        gridSize = 16;
+        sectSize = 4;
+    } else {
+        gridSize = 9;
+        sectSize = 3;
+    }
+
+    for ( i = 0; i < gridSize; ++i ) {
+        $tr = $( "<tr>" );
+        for ( j = 0; j < gridSize; ++j ) {
+            $td = $( "<td>" ).append( $( "<input>" ).attr( "readonly", "readonly" ) );
+
+            // This adds the inner puzzle border styles
+            if ( i !== 0 && i % sectSize === 0 ) {
+                $td.addClass( "sudoku-section-top" );
+            }
+            if ( j !== 0 && j % sectSize === 0 ) {
+                $td.addClass( "sudoku-section-left" );
+            }
+
+            $tr.append( $td );
+        }
+
+        $table.append( $tr );
+    }
+    return $table;
+}
