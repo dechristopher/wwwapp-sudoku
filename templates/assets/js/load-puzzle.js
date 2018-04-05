@@ -1,3 +1,5 @@
+var solve;
+
 $( document ).ready( function() {
     var today = new Date();
     today.setHours( 0, 0, 0, 0 );
@@ -44,15 +46,17 @@ $( document ).ready( function() {
 
     var game = new Sudoku( config );
     game.create();
+    solve = function() { game.solve(); };
 
     // Attach puzzle and functions to the page
     $( "#game-container" ).append( game.getTable() );
-    $( "#solve" ).click( function() {
-        game.solve();
+    $( "#new-puzzle" ).click( function() {
+        window.location = "/";
     } );
     $( "#validate" ).click( function() {
         var complete = game.validate();
         if ( complete ) {
+            // Display the solved modal
             $( "#id04" ).attr( "style", "display: block" );
             $( "#solve-time" ).text( game.getTimer().getString() );
             if ( $.cookie( "uid" ) ) {
