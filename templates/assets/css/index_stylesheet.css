@@ -109,6 +109,7 @@ article
 /* Drop-down class for Difficulty option on navigation bar */
 .dropdown
 {
+    height: 100%;
     position: relative;
     display: inline-block;
     padding: 0px 20px;
@@ -117,6 +118,7 @@ article
 
 .dropdown-type
 {
+    height: 100%;
     position: relative;
     display: inline-block;
     padding: 0px 20px;
