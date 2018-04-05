@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="css/index_stylesheet.css">
 	<link rel="stylesheet" href="css/register_stylesheet.css">
 	<link rel="stylesheet" href="css/login_stylesheet.css">
+	<link rel="stylesheet" href="css/solved_puzzle.css">
 	<link rel="stylesheet" href="css/psw_reset.css">
 	<link rel="stylesheet" href="css/sudoku.css">
 	<link rel="stylesheet" href="css/timer.css">
@@ -44,7 +45,7 @@
 		</span>
 
 		<span class="loggedin">
-			<span class="welcome">Welcome, <span id="username"></span>.</span>
+			<span class="welcome">Welcome, <span class="username"></span>.</span>
 			<a href="/logout" class="right">
 				<button class="btn2" id="logout">Logout</button>
 			</a>
@@ -128,6 +129,25 @@
 					<button type="button" onclick="document.getElementById('id03').style.display='none'" class="cancelbtn3">Cancel</button>
 					<button type="submit" class="submitbtn">Submit</button>
 					<p>A confirmation email with your password was sent to the email provided above.</p>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="id04" class="modal-solved animate">
+		<form class="modal-solved-content" method="GET" action="/">
+			<div class="imgcontainer">
+				<span onclick="document.getElementById('id04').style.display='none'" class="close-solved" title="Close Modal">&times;</span>
+			</div>
+
+			<div class="container-solved">
+				<h2>CONGRATULATIONS!</h2><br/>
+				<p>You solved the puzzle in <span id="solve-time"></span>.</p><br/>
+				<p id="request-login"></p><br/>
+
+				<div class="clearfix">
+					<button type="submit" class="submitbtn">New Puzzle</button>
+					<button type="button" onclick="window.location='/leaderboard'">View Leaderboard</button>
 				</div>
 			</div>
 		</form>
