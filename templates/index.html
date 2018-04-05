@@ -147,14 +147,18 @@
 
 				<div class="clearfix">
 					<button type="submit" class="submitbtn">New Puzzle</button>
-					<button type="button" onclick="window.location='/leaderboard'">View Leaderboard</button>
+					<button type="button" class="cancelbtn" onclick="window.location='/leaderboard'">View Leaderboard</button>
 				</div>
 			</div>
 		</form>
 	</div>
 	
 	<div class="row">
-		<div id="game-container"></div>
+		<div id="dummy-game-container"></div>
+		<script>
+			$( "#dummy-game-container" ).append( buildDummyTable );
+		</script>
+		<div id="game-container" class="hidden"></div>
 		<div class="dropdown">
 			<button class="dropbtn">Difficulty</button>
 			<div class="dropdown-content">
