@@ -35,10 +35,11 @@ $( document ).ready( function() {
     if (cookieUsername) {
         $( ".loggedout" ).css( "display", "none" );
         $( ".loggedin" ).css( "display", "inline" );
-        $( "#username" ).text( cookieUsername );
+        $( ".username" ).text( cookieUsername );
     } else {
         $( ".loggedout" ).css( "display", "inline" );
         $( ".loggedin" ).css( "display", "none" );
+        $( "#request-login" ).text( "Please login or register to have your time submitted to the leaderboard!" );
     }
 
     var game = new Sudoku( config );
@@ -51,25 +52,30 @@ $( document ).ready( function() {
     } );
     $( "#validate" ).click( function() {
         var complete = game.validate();
-        if ( complete && $.cookie( "uid" ) ) {
-            $.ajax({
-                url: "/solve",
-                type: "POST",
-                data: {
-                    userID: $.cookie( "uid" ),
-                    time: game.getTimer().getTime(),
-                    difficulty: game.getConfig().difficulty,
-                    type: game.getConfig().type,
-                    seed: game.getConfig().seed
-                },
-                success: function() {
-                    console.log( "Solve message sent!" );
-                },
-                error: function() {
-                    console.log( "Error sending solve message." );
-                }
-            });
-        }
+        if ( complete ) {
+            $( "#id04" ).attr( "style", "display: block" );
+            $( "#solved-time" ).text( game.getTimer().getString() );
+            if ( $.cookie( "uid" ) ) {
+                $.ajax({
+                    url: "/solve",
+                    type: "POST",
+                    data: {
+                        userID: $.cookie( "uid" ),
+                        username: $.cookie( "username" ),
+                        time: game.getTimer().getTime(),
+                        difficulty: game.getConfig().difficulty,
+                        type: game.getConfig().type,
+                        seed: game.getConfig().seed
+                    },
+                    success: function() {
+                        console.log( "Solve message sent!" );
+                    },
+                    error: function() {
+                        console.log( "Error sending solve message." );
+                    }
+                });
+            }
+        } 
     });
     $( "#pause" ).click( function() {
         game.pause();
