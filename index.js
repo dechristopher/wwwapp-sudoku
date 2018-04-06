@@ -100,15 +100,6 @@ app.alias('/learn_sudoku.html', '/learn');
 app.alias('/about_us.html', '/about');
 app.alias('/daily_puzzle.html', '/');
 
-
-hasher('!!Djdropirish').hash(function (error, hash) {
-	if (error) {
-		throw new Error('Something went wrong!');
-	}
-	log(hash);
-});
-
-
 // Run the homepage template
 app.get('/', (req, res) => {
 	if (!req.session.uid) {
