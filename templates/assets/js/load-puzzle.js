@@ -22,7 +22,8 @@ $( document ).ready( function() {
         if ( cookieType == "Daily" ) {
             config.difficulty = "Medium";
             config.type = "Normal";
-            config.seed = today.getTime();
+			//config.seed = today.getTime();
+			config.seed = Date.now();
         } else {
             config.type = cookieType;
         }
@@ -46,7 +47,7 @@ $( document ).ready( function() {
 
     var game = new Sudoku( config );
     game.create();
-    solve = function() { game.solve(); };
+	solve = function() { game.solve(); };
 
     // Attach puzzle and functions to the page
     $( "#game-container" ).append( game.getTable() );
@@ -60,7 +61,7 @@ $( document ).ready( function() {
             $( "#id04" ).attr( "style", "display: block" );
             $( "#solve-time" ).text( game.getTimer().getString() );
             if ( $.cookie( "uid" ) ) {
-                $.ajax({
+                /*$.ajax({
                     url: "/solve",
                     type: "POST",
                     data: {
@@ -75,11 +76,25 @@ $( document ).ready( function() {
                         console.log( "Solve message sent!" );
                     },
                     error: function() {
-                        console.log( "Error sending solve message." );
+						console.log( "Error sending solve message." );
+						window.location = "/";
                     }
-                });
+				});*/
+				$.post("/solve",
+					{
+						userID: $.cookie("uid"),
+						username: $.cookie("username"),
+						time: game.getTimer().getTime(),
+						difficulty: game.getConfig().difficulty,
+						type: game.getConfig().type,
+						seed: game.getConfig().seed
+					},
+					function (data, status) {
+						alert("Data: " + data + "\nStatus: " + status);
+					}
+				);
             }
-        } 
+        }
     });
     $( "#pause" ).click( function() {
         var paused = game.pause();
