@@ -67,7 +67,7 @@
 			$.each(result, function(i, field){
 				console.log(field);
 				var seconds = formatSeconds(field.time);
-				$("#tableRows").append("<tr class=\"c1\"><td>" + i + " &nbsp;&nbsp;&nbsp;</td><td>" +  + "</td><td>" + field.username + "</td><td>" + field.type + "</td><td>" + field.difficulty + "</td><td>" + field.date + "</td></tr>");
+				$("tbody").append("<tr class=\"c1\"><td>" + i + " &nbsp;&nbsp;&nbsp;</td><td>" + seconds + "</td><td>" + field.username + "</td><td>" + field.type + "</td><td>" + field.difficulty + "</td><td>" + field.date + "</td></tr>");
 			});
     	});
 
