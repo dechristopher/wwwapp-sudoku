@@ -66,13 +66,17 @@
 			console.log(result);
 			$.each(result, function(i, field){
 				console.log(field);
-				$("#tableRows").append("<tr class=\"c1\"><td>" + i + " &nbsp;&nbsp;&nbsp;</td><td>" + (new Date).clearTime().addSeconds(field.time).toString('H:mm:ss') + "</td><td>" + field.username + "</td><td>" + field.type + "</td><td>" + field.difficulty + "</td><td>" + field.date + "</td></tr>");
+				var seconds = formatSeconds(field.time);
+				$("#tableRows").append("<tr class=\"c1\"><td>" + i + " &nbsp;&nbsp;&nbsp;</td><td>" +  + "</td><td>" + field.username + "</td><td>" + field.type + "</td><td>" + field.difficulty + "</td><td>" + field.date + "</td></tr>");
 			});
     	});
 
-		/*
-
-		*/
+		function formatSeconds(sec) {
+			return [(sec / 3600), ((sec % 3600) / 60), ((sec % 3600) % 60)]
+				.map(v => v < 10 ? "0" + parseInt(v) : parseInt(v))
+				.filter((i, j) => i !== "00" || j > 0)
+				.join(":");
+		}
 	});
 </script>
 
