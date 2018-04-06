@@ -11,6 +11,8 @@
 	<link rel="stylesheet" href="css/reset.css">
 	<link rel="stylesheet" href="css/learn_sudoku_stylesheet.css">
 	<link rel="stylesheet" href="css/tables.css">
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery-cookie.js"></script>
 </head>
 
 <body>
@@ -40,14 +42,8 @@
 				<th> Difficulty </th>
 				<th> Date </th>
 			</tr>
-			<tr class="c1">
-				<td>1 &nbsp;&nbsp;&nbsp;</td>
-				<td>5:35</td>
-				<td>User</td>
-				<td>Normal</td>
-				<td>Hard</td>
-				<td>04/05/2018</td>
-			</tr>
+			<div id="tableRows"></div>
+
 			</tbody>
 		</table>
 	</div>
@@ -63,5 +59,26 @@
 		<p> Copyright © 2018 SudoCrew </p>
 	</div>
 </footer>
+
+<script>
+	$( document ).ready( function() {
+		$.get("/leaderboard/data", function(data, status){
+			var tableData = JSON.parse(data);
+
+			$("#tableRows").add(tableData);
+		});
+
+		/*
+			<tr class="c1">
+				<td>1 &nbsp;&nbsp;&nbsp;</td>
+				<td>5:35</td>
+				<td>User</td>
+				<td>Normal</td>
+				<td>Hard</td>
+				<td>04/05/2018</td>
+			</tr>
+		*/
+	});
+</script>
 
 </html>
