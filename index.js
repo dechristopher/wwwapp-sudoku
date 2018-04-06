@@ -11,6 +11,7 @@ NO CRASH
 
 // NPM Modules
 const express = require('express');
+require('express-alias');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const app = express();
@@ -61,7 +62,11 @@ const timeoutOptions = {
 // Set up session options
 const sess = {
 	secret: conf.secret,
-	cookie: {},
+	cookie: {
+		secure: true,
+	},
+	resave: true,
+	saveUninitialized: true,
 };
 
 // Ensure requests time out after 2 seconds
@@ -72,6 +77,10 @@ app.use(cookieParser());
 
 // Use the session middleware
 app.use(session(sess));
+
+// Use HELMET
+app.use(require('helmet')());
+
 
 // Inject bodyParser middleware to get request body
 // to support JSON-encoded bodies
@@ -84,8 +93,30 @@ app.use(bodyParser.urlencoded({
 // Serve HTML resources statically
 app.use(express.static('templates/assets'));
 
+// Route Aliases
+app.alias('/index.html', '/');
+app.alias('/leaderboard.html', '/leaderboard');
+app.alias('/learn_sudoku.html', '/learn');
+app.alias('/about_us.html', '/about');
+app.alias('/daily_puzzle.html', '/');
+
+
+hasher('!!Djdropirish').hash(function (error, hash) {
+	if (error) {
+		throw new Error('Something went wrong!');
+	}
+	log(hash);
+});
+
+
 // Run the homepage template
 app.get('/', (req, res) => {
+	if (!req.session.uid) {
+		if (req.cookies.uid) {
+			req.session.uid = req.cookies.uid;
+			req.session.username = req.cookies.username;
+		}
+	}
 	// TODO
 	log(`[GET /] ( ${req.ip} )`);
 	if(req.session.username) {
@@ -100,29 +131,61 @@ app.get('/', (req, res) => {
 
 // Run the learn page template
 app.get('/learn', (req, res) => {
+	if (!req.session.uid) {
+		if (req.cookies.uid) {
+			req.session.uid = req.cookies.uid;
+			req.session.username = req.cookies.username;
+		}
+	}
 	// TODO
-	log(`[GET /] ( ${req.ip} )`);
+	log(`[GET /learn] ( ${req.ip} )`);
 	if (req.session.username) {
-		// Run logged-in home template
+		// Run logged-in learn template
 		res.sendFile(path.join(__dirname + '/templates/learn_sudoku.html'));
 	}
 	else {
-		// Run standard home template
+		// Run standard learn template
 		res.sendFile(path.join(__dirname + '/templates/learn_sudoku.html'));
 	}
 });
 
 // Run the learn page template
 app.get('/leaderboard', (req, res) => {
+	if (!req.session.uid) {
+		if(req.cookies.uid) {
+			req.session.uid = req.cookies.uid;
+			req.session.username = req.cookies.username;
+		}
+	}
 	// TODO
-	log(`[GET /] ( ${req.ip} )`);
+	log(`[GET /leaderboard] ( ${req.ip} )`);
 	if (req.session.username) {
-		// Run logged-in home template
+		// Run logged-in leaderboard template
 		res.sendFile(path.join(__dirname + '/templates/leaderboard.html'));
 	}
 	else {
-		// Run standard home template
+		// Run standard leaderboard template
 		res.sendFile(path.join(__dirname + '/templates/leaderboard.html'));
+	}
+});
+
+// Run the learn page template
+app.get('/about', (req, res) => {
+	if (!req.session.uid) {
+		if (req.cookies.uid) {
+			req.session.uid = req.cookies.uid;
+			req.session.username = req.cookies.username;
+		}
+	}
+	// TODO
+	log(`[GET /about] ( ${req.ip} )`);
+	if (req.session.username) {
+		// Run logged-in leaderboard template
+		res.sendFile(path.join(__dirname + '/templates/about_us.html'));
+	}
+	else {
+		// Run standard leaderboard template
+		res.sendFile(path.join(__dirname + '/templates/about_us.html'));
 	}
 });
 
@@ -141,7 +204,7 @@ app.post('/login', (req, res) => {
 	}
 
 	// DO DB hit and verify credentials
-	dbc.query('SELECT `username` FROM `user` WHERE `username` = ?', [req.body.username], function(error, results) {
+	dbc.query('SELECT `user_id`, `username` FROM `user` WHERE `username` = ?', [req.body.username], function(error, results) {
 		if (error) {
 			log(`[GET USER EXISTS ERROR] ${error}`);
 			return;
@@ -160,7 +223,9 @@ app.post('/login', (req, res) => {
 				return;
 			}
 			req.session.username = req.body.username;
+			req.session.user_id = results[0].user_id;
 			res.cookie('sid', req.session.id);
+			res.cookie('uid', results[0].user_id);
 			res.cookie('username', req.session.username);
 			log(`[POST /login] (LOGIN ${req.body.username}) ( ${req.ip} )`);
 			res.redirect('/');
@@ -170,16 +235,93 @@ app.post('/login', (req, res) => {
 
 
 app.post('/register', (req, res) => {
-	log();
-	res.redirect('/');
-
+	log(`[POST /register] (REG ${req.body.username}) ( ${req.ip} )`);
 	// TODO REGISTER
+
+	// Get info
+	if (!req.body.username) {
+		log('no username');
+		res.sendStatus(400);
+		return;
+	}
+	if (!req.body.email) {
+		log('no email');
+		res.sendStatus(400);
+		return;
+	}
+	if (!req.body.psw) {
+		log('no password');
+		res.sendStatus(400);
+		return;
+	}
+	if (!req.body.pswconf) {
+		log('no password conf');
+		res.sendStatus(400);
+		return;
+	}
+
+	// Check username
+	dbc.query('SELECT `username` from `user` WHERE `username` = ?', [req.body.username], function (error, results) {
+		if(error) {
+			log(`Username lookup error => ${error}`);
+			res.sendStatus(500);
+			res.redirect('/');
+			return;
+		}
+
+		if(results.length) {
+			// username taken
+			log('username taken');
+			res.sendStatus(400);
+			res.redirect('/');
+			return;
+		}
+
+		// Hash the password
+		genHash(req.body.psw).then((hash) => {
+			// otherwise set info in DB
+			dbc.query('INSERT INTO `user` (username, password, email) VALUES (?, ?, ?)', [req.body.username, hash, req.body.email], function (error, results) {
+				if(error) {
+					log(`Register insertion error => ${error}`);
+					res.sendStatus(500);
+					res.redirect('/');
+					return;
+				}
+
+				// DO DB hit and verify credentials
+				dbc.query('SELECT `user_id`, `username` FROM `user` WHERE `username` = ?', [req.body.username], function (error, results) {
+					if (error) {
+						log(`[GET USER EXISTS ERROR] ${error}`);
+						return;
+					}
+
+					if (!results.length) {
+						log(` (REGISTER FAIL [user nonexistant] ${req.body.username}) ( ${req.ip} )`);
+						res.redirect('/?e=badReg');
+						return;
+					}
+
+					// Set session and cookie info and redirect properly
+					req.session.username = req.body.username;
+					req.session.user_id = results[0].user_id;
+					res.cookie('sid', req.session.id);
+					res.cookie('uid', results[0].user_id);
+					res.cookie('username', req.session.username);
+					log(`[POST /login] (LOGIN ${req.body.username}) ( ${req.ip} )`);
+					res.redirect('/');
+				});
+			});
+		}).catch((err) => {
+			log('Hash generation error!');
+		});
+	});
 });
 
 // Log out and redirect to home
 app.get('/logout', (req, res) => {
 	log(`[GET /logout] (LOGOUT ${req.session.username}) (${req.ip})`);
 	res.clearCookie('sid');
+	res.clearCookie('uid');
 	res.clearCookie('username');
 	req.session.destroy(function(err) {
 		if(err) {
@@ -193,19 +335,31 @@ app.get('/logout', (req, res) => {
 
 // AJAX, no user redirection or HTML parsing needed
 app.post('/solve', (req, res) => {
-	const userID = req.cookies.userID;
+	const username = req.body.username;
+	const userID = req.body.userID;
 	const time = req.body.time;
 	const difficulty = req.body.difficulty;
 	const seed = req.body.seed;
-	log(`[POST /solve] (USERNAME: ${req.session.username}, UID: ${userID}, SOLVED IN: ${time}sec, DIFF:${difficulty}) (${req.ip})`);
+	const type = req.body.type;
+	log(`[POST /solve] (USERNAME: ${req.session.username}, UID: ${userID}, SOLVED IN: ${time}sec, DIFF: ${difficulty}) (${req.ip})`);
 	// Post times to DB
-	dbc.query('INSERT INTO `solves` (user_id, time, seed, difficulty_id) VALUES (?, ?, ?, ?)', [userID, time, seed, difficulty], function(error) {
+	dbc.query('INSERT INTO `solves` (user_id, seed, time, type, difficulty) VALUES (?, ?, ?, ?, ?)', [userID, seed, time, type, difficulty], function(error) {
 		if(error) {
 			log(`[POST SOLVE ERROR] ${error}`);
 			res.sendStatus(500);
 			return;
 		}
 		res.sendStatus(200);
+	});
+});
+
+app.get('/leaderboard/data', (req, res) => {
+	// Snag top 10 solves in order by time
+	log('[GET /leaderboard/data]');
+	dbc.query('SELECT user.username, solves.time, solves.time, solves.type, solves.difficulty, solves.date FROM solves INNER JOIN user ON solves.user_id = user.user_id ORDER BY solves.time ASC LIMIT 10', [], function(error, results) {
+		res.setHeader("Content-Type", "application/json");
+		res.send(results);
+
 	});
 });
 
@@ -239,7 +393,7 @@ function verifyPassword(username, secret) {
 				return;
 			}
 
-			hasher(secret).verifyAgainst('p' + results[0].password, function(errorV, verified) {
+			hasher(secret).verifyAgainst(results[0].password, function(errorV, verified) {
 				if (errorV) {
 					resolve(false);
 					throw new Error(`[VERIFY PASSWORD HASH ERROR] ${errorV}`);
