@@ -256,7 +256,6 @@ app.post('/register', (req, res) => {
 	dbc.query('SELECT `username` from `user` WHERE `username` = ?', [req.body.username], function (error, results) {
 		if(error) {
 			log(`Username lookup error => ${error}`);
-			res.sendStatus(500);
 			res.redirect('/?badReg=2');
 			return;
 		}
@@ -264,7 +263,6 @@ app.post('/register', (req, res) => {
 		if(results.length) {
 			// username taken
 			log('username taken');
-			res.sendStatus(400);
 			res.redirect('/?badReg=1');
 			return;
 		}
@@ -275,7 +273,6 @@ app.post('/register', (req, res) => {
 			dbc.query('INSERT INTO `user` (username, password, email) VALUES (?, ?, ?)', [req.body.username, hash, req.body.email], function (error, results) {
 				if(error) {
 					log(`Register insertion error => ${error}`);
-					res.sendStatus(500);
 					res.redirect('/?badReg=2');
 					return;
 				}
