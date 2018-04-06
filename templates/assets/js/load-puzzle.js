@@ -21,11 +21,11 @@ $( document ).ready( function() {
     if (cookieType) {
         if ( cookieType == "Daily" ) {
             config.difficulty = "Medium";
-            config.type = "Normal";
-			//config.seed = today.getTime();
-			config.seed = Date.now();
+			config.type = "Normal";
+			config.seed = today.getTime();
         } else {
-            config.type = cookieType;
+			config.type = cookieType;
+			config.seed = Date.now();
         }
     } else {
         // no cookie set, so generate first puzzle based on daily seed.
