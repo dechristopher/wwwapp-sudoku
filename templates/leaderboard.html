@@ -42,8 +42,6 @@
 				<th> Difficulty </th>
 				<th> Date </th>
 			</tr>
-			<div id="tableRows"></div>
-
 			</tbody>
 		</table>
 	</div>
@@ -67,7 +65,8 @@
 			$.each(result, function(i, field){
 				console.log(field);
 				var seconds = formatSeconds(field.time);
-				$("tbody").append("<tr class=\"c1\"><td>" + i + " &nbsp;&nbsp;&nbsp;</td><td>" + seconds + "</td><td>" + field.username + "</td><td>" + field.type + "</td><td>" + field.difficulty + "</td><td>" + field.date + "</td></tr>");
+				var date = new Date(field.date).toString();
+				$("tbody").append("<tr class=\"c1\"><td>" + i + " &nbsp;&nbsp;&nbsp;</td><td>" + seconds + "</td><td>" + field.username + "</td><td>" + field.type + "</td><td>" + field.difficulty + "</td><td>" + date + "</td></tr>");
 			});
     	});
 
