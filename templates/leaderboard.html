@@ -64,9 +64,10 @@
 	$( document ).ready( function() {
 		$.getJSON("/leaderboard/data", function(result){
 			console.log(result);
-			/*$.each(result, function(i, field){
-				$("div").append(field + " ");
-			});*/
+			$.each(result, function(i, field){
+				console.log(field);
+				// $("#tableRows").append(field + " ");
+			});
     	});
 
 		/*
