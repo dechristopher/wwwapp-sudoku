@@ -6,49 +6,49 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="cleartype" content="on">
-	<link rel="stylesheet" href="assets/css/reset.css">
-	<link rel="stylesheet" href="assets/css/learn_sudoku_stylesheet.css">
-	<script type="text/javascript" src="assets/js/read_more.js"></script>
-	
-	<style> 
-		body 
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/learn_sudoku_stylesheet.css">
+	<script type="text/javascript" src="js/read_more.js"></script>
+
+	<style>
+		body
 		{
 			font-family: Arial, Helvetica, sans-serif;
-		}			
+		}
 	</style>
 </head>
 
 <body>
 	<div class="header">
 		<div class="figure_logo">
-			<a href="index.html" title="Play Free Sudoku" rel="home"> 
-			<img src="assets/images/Sudoku.png" height="100" width="400" alt> </a> 
+			<a href="index.html" title="Play Free Sudoku" rel="home">
+			<img src="images/Sudoku.png" height="100" width="400" alt> </a>
 		</figure>
 	</div>
-	
+
 	<div class="navbar">
 		<a href="index.html" class="left">Home</a>
 		<a href="learn_sudoku.html" class="left active">Learn Sudoku</a>
 		<a href="leaderboard.html" class="left">Leaderboard</a>
 		<a href="daily_puzzle.html" class="left">Daily Puzzle</a>
 	</div>
-	
+
 	<article>
 		<h1>Classic Sudoku</h1>
 		<div class="entry">
 			<figure>
-				<img src="assets/images/sudoku_grid.png" width="200" height="200" alt="" />
+				<img src="images/sudoku_grid.png" width="200" height="200" alt="" />
 				<figcaption>Classic Sudoku</figcaption>
 			</figure>
-				
+
 		<div>
 		<h2>Rules</h2>
-		<p> Each puzzle consists of a 9x9 grid containing given clues in various places. 
-		    The object is to fill all empty squares so that the numbers 1 to 9 appear exactly 
+		<p> Each puzzle consists of a 9x9 grid containing given clues in various places.
+		    The object is to fill all empty squares so that the numbers 1 to 9 appear exactly
 		    once in each row, column and 3x3 box. </p>
 			<div class="right">
 				<button id="classicBtn" onclick="document.getElementbyId('classicBtn')" class="linkbutton">Read More</button>
-				
+
 				<div id="classicModal" class="modal">
 
 				  <div class="modal-content">
@@ -60,15 +60,15 @@
 							<div class="column">
 								<h2> 1. Scanning in one direction: </h2>
 									<p> In our first example we will focus on box 2, which like any other box in Sudoku must contain 9. Looking at box 1 and box 3 we can see there are already 9s in row 2 and in row 3, which excludes the two bottom rows of box 2 from having 9. This leaves square e1 as the only possible place into which 9 can fit in.</p>
-								<img src = "assets/images/classic_sudoku_demo1.gif" alt = "">
-								<img src = "assets/images/classic_sudoku_demo2.gif" alt = "">
+								<img src = "images/classic_sudoku_demo1.gif" alt = "">
+								<img src = "images/classic_sudoku_demo2.gif" alt = "">
 							</div>
-				
+
 							<div class="column">
 								<h2> 2. Scanning in two directions: </h2>
 									<p> The same technique can be expanded by using information from perpendicular rows and columns. Let’s see where we can place 1 in box 3. In this example, row 1 and row 2 contain 1s, which leaves two empty squares in the bottom of box 3. However, square g4 also contains 1, so no additional 1 is allowed in column g. This means that square i3 is the only place left for 1.</p>
-								<img src = "assets/images/classic_sudoku_demo3.gif" alt = "">
-								<img src = "assets/images/classic_sudoku_demo4.gif" alt = "">
+								<img src = "images/classic_sudoku_demo3.gif" alt = "">
+								<img src = "images/classic_sudoku_demo4.gif" alt = "">
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -84,18 +84,18 @@
 		<h1>Diagonal Sudoku</h1>
 		<div class="entry">
 			<figure>
-				<img src="assets/images/diagonal_sudoku.png" width="200" height="200" alt="" />
-				<figcaption>Diagonal Sudoku</figcaption>     
+				<img src="images/diagonal_sudoku.png" width="200" height="200" alt="" />
+				<figcaption>Diagonal Sudoku</figcaption>
 			</figure>
-				
+
 		<div>
 		<h2>Rules</h2>
 		<p> Each puzzle consists of a 9x9 grid containing given clues in 	   various places.
-		    The object is to fill all empty squares so that the numbers 1 to 9 appear exactly 
+		    The object is to fill all empty squares so that the numbers 1 to 9 appear exactly
 		    once in each row, column, diagonal and 3x3 box. </p>
 			<div class="right">
 				<button id="diagonalBtn" onclick="document.getElementbyId('diagonalBtn')" class="linkbutton">Read More</button>
-				
+
 					<div id="diagonalModal" class="modal">
 
 					  <div class="modal-content">
@@ -107,15 +107,15 @@
 							<div class="column">
 								<h2> 1. Diagonal and Box Interation: </h2>
 									<p> Diagonals can give you additional clues to the solution. In our first example we will look at the lower-left to top-right diagonal. There are three unsolved values on this diagonal (c7, g3, and i1). The box in the lower-left still needs the number 4. Of the three unsolved values the possibilities for the number 4 in that box are on the diagonal (i2 can only be 1 or 2 due to row/column constricitons). Since 4 can only appear once on the diagonal and the only two possible places for 4 are on the diagonal means that the number 4 cannot anywhere else on the diagonol, otherwise 4 could not be put in the lower-left box. This means the value for c7 (which had possibility of values of 2 or 4) cannot be 4 since it lies on the same diagonal. Using this you can deduce the value of c7 to be 2.</p>
-								<img src = "assets/images/diagonal_sudoku_demo1.png" alt = "">
-								<img src = "assets/images/diagonal_sudoku_demo2.png" alt = "">
+								<img src = "images/diagonal_sudoku_demo1.png" alt = "">
+								<img src = "images/diagonal_sudoku_demo2.png" alt = "">
 							</div>
-				
+
 							<div class="column">
 								<h2> 2. Diagonal Crossover: </h2>
 									<p> In our second example we will be looking at the crossover of two values that are on a diagonal. Looking at the diagonal going from top-left to bottom-right there are two unsolved cells (a1 and i9). Both of those cells have the possible values of 6 and 9. This means that the number 9 has to appear on the diagonal in one of these spots. This means that the cells that are overlap between row and column (row and columns maked by dotted lines) of the two unsolved cells on the diagonal cannot have the value 9. The value 9 needs to go in a1 or i9 meaning due to row/column constrictions the overlapped cells (a9 and i1) can not contain the value 9. Using this technique if you look at cell a9 (with possible values of 3 and 9) you can see it is a crossed-over by both the row of a1 and column of i9. Meaning that this cell cannot contain the value of 9. Thus the solution for this cell is 3 (only other possibility).</p>
-								<img src = "assets/images/diagonal_sudoku_demo3.png" alt = "">
-								<img src = "assets/images/diagonal_sudoku_demo4.png" alt = "">
+								<img src = "images/diagonal_sudoku_demo3.png" alt = "">
+								<img src = "images/diagonal_sudoku_demo4.png" alt = "">
 							</div>
 							</div>
 							<div class="modal-footer">
@@ -127,23 +127,23 @@
 			</div>
 		</div>
 		</div>
-	</article> 
-	
+	</article>
+
 	<article>
 		<h1>Mega Sudoku</h1>
 		<div class="entry">
 			<figure>
-				<img src="assets/images/mega_sudoku.jpg" width="200" height="200" alt="" />
-				<figcaption>Mega Sudoku</figcaption>     
+				<img src="images/mega_sudoku.jpg" width="200" height="200" alt="" />
+				<figcaption>Mega Sudoku</figcaption>
 			</figure>
-				
+
 		<div>
 		<h2>Rules</h2>
-		<p> Each puzzle consists of a 12x12 or 16x16 grid containing given clues in various places. 
+		<p> Each puzzle consists of a 12x12 or 16x16 grid containing given clues in various places.
 			The object is to fill all empty squares so that the numbers 1 to 12 (for 12x12 puzzles) or 1 to 16 (for 16x16 puzzles) appear exactly once in each row, column and box. </p>
 			<div class="right">
 				<button id="megaBtn" onclick="document.getElementbyId('megaBtn')" class="linkbutton">Read More</button>
-				
+
 					<div id="megaModal" class="modal">
 
 					  <div class="modal-content">
@@ -155,15 +155,15 @@
 							<div class="column">
 								<h2> 12x12 Sudoku: </h2>
 								<p> 12x12 Sudoku uses many of the same techniques as classic sudoku. In are first example we look the 12x12 sudoku grid. Each row, column and box contain 1,2,3,4,5,6,7,8,9,A,B,C exatcly once. This means we can use the same scanning techniques shown on the classic sudoku techniques page however there are now more possible values to consider when solving for a value. In the example we can find the solution of cell a7 by using the rows, columns and box values. We conclude this by scanning rows and columns for the number 4. The four 4 values circled in red leave the only possible spot left to include the value 4 in box 2 is cell a7. 12x12 Sudoku puzzles create a larger selection of values making it harder to narrow down your selection but many of the fundemantal techniques from classic sudoku can be utilized in Mega Sudoku as well.</p>
-								<img src = "assets/images/big_sudoku_demo1.png" alt = "">
-								<img src = "assets/images/big_sudoku_demo2.png" alt = "">
+								<img src = "images/big_sudoku_demo1.png" alt = "">
+								<img src = "images/big_sudoku_demo2.png" alt = "">
 							</div>
-				
+
 							<div class="column">
 								<h2> 16x16 Sudoku: </h2>
 								<p> 16x16 Sudoku also expands on the techniques from classic sudoku. The second example shows the start of a 16x16 sudoku puzzle. If looking at the cell c12 you can solve for the value by using row/column scanning. The values in the same row or column that help exclude a value for cell c12 are circled in red. All values except D (1-9,A-C,E-F) are present in either row c or column 12. So by using the scanning technique we were able to deduce the value of c12 to be D. 16x16 Sudoku puzzles increase the amount of possibilites for values so keeping track of the possible values for each cell (make note of values that are possible when taking account of row/column and box restrctions on value) on can be very helpful to help you narrow down your selection of values.</p>
-								<img src = "assets/images/big_sudoku_demo3.png" alt = "">
-								<img src = "assets/images/big_sudoku_demo4.png" alt = "">
+								<img src = "images/big_sudoku_demo3.png" alt = "">
+								<img src = "images/big_sudoku_demo4.png" alt = "">
 							</div>
 							</div>
 							<div class="modal-footer">
@@ -175,8 +175,8 @@
 			</div>
 		</div>
 		</div>
-	</article> 
-	
+	</article>
+
 
 </div>
 </body>
@@ -190,4 +190,4 @@
 	</div>
 </footer>
 
-</html> 
+</html>

@@ -24,11 +24,11 @@
 <body>
 	<div class="header">
 		<figure>
-			<a href="index.html" title="Play Free Sudoku" rel="home"> 
-			<img src="images/Sudoku.png" height="100" width="400" alt> </a> 
+			<a href="index.html" title="Play Free Sudoku" rel="home">
+			<img src="images/Sudoku.png" height="100" width="400" alt> </a>
 		</figure>
 	</div>
-	
+
 	<div class="navbar">
 		<a href="/" class="left active">Home</a>
 		<a href="/learn" class="left">Learn Sudoku</a>
@@ -51,7 +51,7 @@
 			</a>
 		</span>
 	</div>
-	
+
 	<div id="id01" class="modal">
 		<form class="modal-content animate" method="POST" action="/login">
 			<div class="imgcontainer">
@@ -76,16 +76,16 @@
 			</div>
 		</form>
 	</div>
-	
+
 	<div id="id02" class="modal2">
 		<form class="modal2-content" method="POST" action="/register">
-			
+
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id02').style.display='none'" class="close2" title="Close Modal">&times;</span>
 			</div>
-			
+
 			<div class="container2">
-				
+
 				<h2>Sign Up</h2>
 				<p>Please fill in this form to create an account:</p>
 					<hr>
@@ -96,7 +96,7 @@
 				<label for="psw"><b>Password:</b></label>
 					<input class="input2" type="password" placeholder="Enter Password" name="psw" required>
 				<label for="psw-confirm"><b>Confirm Password:</b></label>
-					<input class="input2" type="password" placeholder="Confirm Password" name="psw-confirm" required>
+					<input class="input2" type="password" placeholder="Confirm Password" name="pswconf" required>
 				<label>
 					<input class="input2" type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
 				</label>
@@ -110,14 +110,14 @@
 			</div>
 		</form>
 	</div>
-	
+
 	<div id="id03" class="modal3">
 		<form class="modal3-content" method="POST" action="/register">
-			
+
 			<div class="imgcontainer">
 				<span onclick="document.getElementById('id03').style.display='none'" class="close3" title="Close Modal">&times;</span>
 			</div>
-			
+
 			<div class="container3">
 				<h2>Please enter your email to receive your password.</h2>
 					<hr>
@@ -152,7 +152,7 @@
 			</div>
 		</form>
 	</div>
-	
+
 	<div class="row">
 		<div id="dummy-game-container"></div>
 		<script>
