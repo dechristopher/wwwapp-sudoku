@@ -62,11 +62,12 @@
 
 <script>
 	$( document ).ready( function() {
-		$.get("/leaderboard/data", function(data, status){
-			var tableData = JSON.parse(data);
-
-			$("#tableRows").add(tableData);
-		});
+		$.getJSON("/leaderboard/data", function(result){
+			console.log(result);
+			/*$.each(result, function(i, field){
+				$("div").append(field + " ");
+			});*/
+    	});
 
 		/*
 			<tr class="c1">
