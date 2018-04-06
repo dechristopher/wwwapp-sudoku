@@ -66,19 +66,12 @@
 			console.log(result);
 			$.each(result, function(i, field){
 				console.log(field);
-				// $("#tableRows").append(field + " ");
+				$("#tableRows").append("<tr class=\"c1\"><td>" + i + " &nbsp;&nbsp;&nbsp;</td><td>" + (new Date).clearTime().addSeconds(field.time).toString('H:mm:ss') + "</td><td>" + field.username + "</td><td>" + field.type + "</td><td>" + field.difficulty + "</td><td>" + field.date + "</td></tr>");
 			});
     	});
 
 		/*
-			<tr class="c1">
-				<td>1 &nbsp;&nbsp;&nbsp;</td>
-				<td>5:35</td>
-				<td>User</td>
-				<td>Normal</td>
-				<td>Hard</td>
-				<td>04/05/2018</td>
-			</tr>
+
 		*/
 	});
 </script>
