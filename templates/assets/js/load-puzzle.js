@@ -56,7 +56,13 @@ $( document ).ready( function() {
     // Attach puzzle and functions to the page
     $( "#game-container" ).append( game.getTable() );
     $( "#new-puzzle" ).click( function() {
-        window.location = "/";
+        var getNewPuzzle = true;
+        if (game.getNumberOfEmptyCells() < 8) {
+            getNewPuzzle = confirm("Your puzzle is almost complete, are you sure you want a new puzzle?");
+        }
+        if (getNewPuzzle) {
+            window.location = "/";
+        }
     } );
     $( "#validate" ).click( function() {
         var complete = game.validate();

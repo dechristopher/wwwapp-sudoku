@@ -120,6 +120,13 @@ var Sudoku = function( config ) {
             },
 
             /**
+             * Return the number of empty cells
+             */
+            getNumberOfEmptyCells: function() {
+                return _game.findAllEmptySquares().length;
+            },
+
+            /**
              * Reset the game board
              */
             reset: function() {
