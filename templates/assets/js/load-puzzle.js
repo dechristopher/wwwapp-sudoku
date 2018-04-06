@@ -22,11 +22,7 @@ $( document ).ready( function() {
         if ( cookieType == "Daily" ) {
             config.difficulty = "Medium";
 			config.type = "Normal";
-			if ($.cookie("type") == "Daily") {
-				config.seed = Date.now();
-			} else {
-				config.seed = today.getTime();
-			}
+			config.seed = today.getTime();
         } else {
 			config.type = cookieType;
 			config.seed = Date.now();
