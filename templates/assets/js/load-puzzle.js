@@ -90,7 +90,7 @@ $( document ).ready( function() {
 						seed: game.getConfig().seed
 					},
 					function (data, status) {
-						alert("Data: " + data + "\nStatus: " + status);
+						//alert("Data: " + data + "\nStatus: " + status);
 					}
 				);
             }
