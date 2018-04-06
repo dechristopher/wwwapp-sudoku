@@ -4,7 +4,7 @@
   "description": "The final project for WWW App Development - Spring 2018",
   "main": "index.js",
   "scripts": {
-	"deploy": "mkdir logs && touch config.json && npm install",
+    "deploy": "mkdir logs && touch config.json && npm install",
     "test": "mocha ."
   },
   "repository": {
@@ -27,6 +27,7 @@
     "chalk": "^2.3.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
+    "express-alias": "^0.4.0",
     "express-session": "^1.15.6",
     "express-timeout-handler": "^2.1.2",
     "https": "^1.0.0",
