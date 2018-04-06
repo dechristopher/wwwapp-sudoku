@@ -20,6 +20,8 @@ $( document ).ready( function() {
 
     if (cookieType) {
         if ( cookieType == "Daily" ) {
+            $( "#home" ).toggleClass( "active" );
+            $( "#daily").toggleClass( "active" );
             config.difficulty = "Medium";
 			config.type = "Normal";
 			config.seed = today.getTime();
@@ -30,6 +32,8 @@ $( document ).ready( function() {
     } else {
         // no cookie set, so generate first puzzle based on daily seed.
         $.cookie( "type", "Daily", { expires: tomorrow } );
+        $( "#home" ).toggleClass( "active" );
+        $( "#daily" ).toggleClass( "active" );
         config.difficulty = "Medium";
         config.type = "Normal";
         config.seed = today.getTime();
