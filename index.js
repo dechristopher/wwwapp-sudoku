@@ -198,19 +198,20 @@ app.post('/login', (req, res) => {
 	dbc.query('SELECT `user_id`, `username` FROM `user` WHERE `username` = ?', [req.body.username], function(error, results) {
 		if (error) {
 			log(`[GET USER EXISTS ERROR] ${error}`);
+			res.redirect('/?badLogin=2');
 			return;
 		}
 
 		if(!results.length) {
 			log(`[POST /login] (LOGIN FAIL [user nonexistant] ${req.body.username}) ( ${req.ip} )`);
-			res.redirect('/?e=badLogin');
+			res.redirect('/?badLogin=1');
 			return;
 		}
 
 		verifyPassword(req.body.username, req.body.psw).then(validated => {
 			if(!validated) {
 				log(`[POST /login] (LOGIN FAIL [bad password] ${req.body.username}) ( ${req.ip} )`);
-				res.redirect('/?e=badLogin');
+				res.redirect('/?badLogin=1');
 				return;
 			}
 			req.session.username = req.body.username;
@@ -256,7 +257,7 @@ app.post('/register', (req, res) => {
 		if(error) {
 			log(`Username lookup error => ${error}`);
 			res.sendStatus(500);
-			res.redirect('/');
+			res.redirect('/?badReg=2');
 			return;
 		}
 
@@ -264,7 +265,7 @@ app.post('/register', (req, res) => {
 			// username taken
 			log('username taken');
 			res.sendStatus(400);
-			res.redirect('/');
+			res.redirect('/?badReg=1');
 			return;
 		}
 
@@ -275,7 +276,7 @@ app.post('/register', (req, res) => {
 				if(error) {
 					log(`Register insertion error => ${error}`);
 					res.sendStatus(500);
-					res.redirect('/');
+					res.redirect('/?badReg=2');
 					return;
 				}
 
@@ -283,12 +284,13 @@ app.post('/register', (req, res) => {
 				dbc.query('SELECT `user_id`, `username` FROM `user` WHERE `username` = ?', [req.body.username], function (error, results) {
 					if (error) {
 						log(`[GET USER EXISTS ERROR] ${error}`);
+						res.redirect('/?badReg=2');
 						return;
 					}
 
 					if (!results.length) {
 						log(` (REGISTER FAIL [user nonexistant] ${req.body.username}) ( ${req.ip} )`);
-						res.redirect('/?e=badReg');
+						res.redirect('/?badReg=2');
 						return;
 					}
 

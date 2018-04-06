@@ -66,7 +66,7 @@
 				console.log(field);
 				var seconds = formatSeconds(field.time);
 				var date = new Date(field.date).toLocaleString('en-US', { timeZone: 'America/New_York' })
-				$("tbody").append("<tr class=\"c1\"><td>" + i + " &nbsp;&nbsp;&nbsp;</td><td>" + seconds + "</td><td>" + field.username + "</td><td>" + field.type + "</td><td>" + field.difficulty + "</td><td>" + date + "</td></tr>");
+				$("tbody").append("<tr class=\"c1\"><td>" + (i+1) + " &nbsp;&nbsp;&nbsp;</td><td>" + seconds + "</td><td>" + field.username + "</td><td>" + field.type + "</td><td>" + field.difficulty + "</td><td>" + date + "</td></tr>");
 			});
     	});
 
