@@ -28,6 +28,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
     "express-alias": "^0.4.0",
+    "express-force-https": "^1.0.0",
     "express-session": "^1.15.6",
     "express-timeout-handler": "^2.1.2",
     "helmet": "^3.12.0",

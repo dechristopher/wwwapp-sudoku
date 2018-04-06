@@ -19,6 +19,7 @@ const https = require('https');
 const timeout = require('express-timeout-handler');
 const cookieParser = require('cookie-parser');
 const hasher = require('password-hash-and-salt');
+var forceHTTPS = require('express-force-https');
 
 // Core Node Modules
 const fs = require('fs');
@@ -77,6 +78,9 @@ app.use(cookieParser());
 
 // Use the session middleware
 app.use(session(sess));
+
+// Force HTTPS
+app.use(forceHTTPS);
 
 // Use HELMET
 app.use(require('helmet')());
